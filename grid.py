@@ -12,7 +12,7 @@ root.resizable(False, False)
 squares = []
 
 # Test, value should be false
-shipsPlaced = False
+shipsPlaced = True
 
 
 class Grid:
@@ -44,19 +44,23 @@ class Grid:
     # Generates the grid with its buttons
     def generate(self, framePos):
 
+        # Makes a frame for the game
+        playerFrame = Frame(root, bg='white')
+        playerFrame.grid(column=framePos, row=0, padx=10, pady=10)
+
         # Makes a frame for the grid
-        gridFrame = Frame(root, bg='white')
-        gridFrame.grid(column=framePos, row=0, padx=10, pady=10)
+        gridFrame = Frame(playerFrame, bg='white')
+        gridFrame.grid(column=1, row=1, padx=5, pady=5)
 
         # Adds the buttons to the grid
-        letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
         for row in range(self.size):
             for col in range(self.size):
                 square = Button(
-                    gridFrame, bg='#eee', activebackground='#ddd', width=3, height=1, relief='ridge', command=lambda y=row+1, x=letter[col]: self.click(x, y))
+                    gridFrame, bg='#eee', activebackground='#ddd', width=3, height=1, relief='ridge', command=lambda r=letters[row], c=col+1: self.click(r, c))
 
-                square.grid(column=col, row=row)
+                square.grid(column=col+1, row=row+1)
 
                 # Bind the hovering methods
                 square.bind("<Enter>", self.on_button_enter)
@@ -66,13 +70,25 @@ class Grid:
                 self.buttons[row][col] = square
                 squares.append(square)
 
-        print(squares)
+
+        # Labels for top row (numbers)
+
+        for num in range(self.size):
+            numLabel = Label(gridFrame, text=num+1, bg='white', font=('Courier New', 10))
+            numLabel.grid(column=num+1, row=0)
+
+        # Labels for left column (letters)
+
+        for letter in letters:
+            letterLabel = Label(gridFrame, text=letter, bg='white', padx=8, font=('Courier New', 10))
+            letterLabel.grid(column=0, row=letters.index(letter)+1)
+
 
     def placeShip(self, x, y):
         pass
 
     def lock(self, x, y):
-        pass
+        carrier.attack(x, y)
 
 
 

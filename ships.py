@@ -114,12 +114,9 @@ class Carrier:
             print(f'Aircraft carrier runway is inoperational due to enemy fire.')
         elif not self.ready:
             print(f'Fighters are currently rearming and refueling. Please wait.')
+        carrier.turn()
 
 
 # Localized test routine
 
 carrier = Carrier(enterprise['name'], enterprise['nation'], enterprise['level'])
-
-while True:
-    carrier.turn()
-    carrier.attack()
