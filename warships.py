@@ -1,175 +1,207 @@
 from random import *
 from weapons import *
 
-# All types of ships
-
-carriersType = {
-    'name': 'Aircraft Carrier',
-    'size': 5,
-    'armament': 'fighters',
-    'torp acc': 90,
-    'torp instaSink': 5
-}
-
-# Carrier ship names
+# Carriers
 
 kittyHawk = {
     'name': 'USS Kitty Hawk',
     'nation': 'United States',
     'level': 0,
-    'type': 'carrier'
+    'type': 'Carrier'
 }
 
 enterprise = {
     'name': 'USS Enterprise',
     'nation': 'United States',
     'level': 1,
-    'type': 'carrier'
+    'type': 'Carrier'
 }
 
 nimitz = {
     'name': 'Nimitz',
     'nation': 'United States',
     'level': 2,
-    'type': 'carrier'
+    'type': 'Carrier'
 }
 
 ford = {
     'name': 'Ford',
     'nation': 'United States',
     'level': 3,
-    'type': 'carrier'
+    'type': 'Carrier'
 }
 
-# Battleship names
+carriers = {
+    'name': 'Aircraft Carrier',
+    'size': 5,
+    'armament': 'fighter',
+    'torp acc': 90,
+    'torp instaSink': 5,
+    'ships': [kittyHawk, enterprise, nimitz, ford]
+}
+
+# Battleships
 
 washington = {
     'name': 'USS Washington',
     'nation': 'United States',
     'level': 0,
-    'type': 'battleship'
+    'type': 'Battleship'
 }
 
 north_carolina = {
     'name': 'USS North Carolina',
     'nation': 'United States',
     'level': 1,
-    'type': 'battleship'
+    'type': 'Battleship'
 }
 
 wisconson = {
     'name': 'USS Wisconsin',
     'nation': 'United States',
     'level': 2,
-    'type': 'battleship'
+    'type': 'Battleship'
 }
 
 montana = {
     'name': 'USS Montana',
     'nation': 'United States',
     'level': 3,
-    'type': 'battleship'
+    'type': 'Battleship'
 }
 
-# Destroyer names
+battleships = {
+    'name': 'Battleship',
+    'size': 4,
+    'armament': 'gun',
+    'torp acc': 70,
+    'torp instaSink': 15,
+    'ships': [washington, north_carolina, wisconson, montana]
+}
+
+# Destroyers
 
 decatur = {
     'name': 'USS Decatur',
     'nation': 'United States',
     'level': 0,
-    'type': 'destroyer'
+    'type': 'Destroyer'
 }
 
 fletcher = {
     'name': 'USS Fletcher',
     'nation': 'United States',
     'level': 1,
-    'type': 'destroyer'
+    'type': 'Destroyer'
 }
 
 spruance = {
     'name': 'USS Spruance',
     'nation': 'United States',
     'level': 2,
-    'type': 'destroyer'
+    'type': 'Destroyer'
 }
 
 intrepid = {
     'name': 'USS Intrepid',
     'nation': 'United States',
     'level': 3,
-    'type': 'destroyer'
+    'type': 'Destroyer'
 }
 
-# Submarine names
+destroyers = {
+    'name': 'Destroyer',
+    'size': 3,
+    'armament': 'missile',
+    'torp acc': 50,
+    'torp instaSink': 55,
+    'ships': [decatur, fletcher, spruance, intrepid]
+}
+
+# Submarines
 
 nautilus = {
     'name': 'USS Nautilus',
     'nation': 'United States',
     'level': 0,
-    'type': 'submarine'
+    'type': 'Submarine'
 }
 
 losAngeles = {
     'name': 'USS Los Angeles',
     'nation': 'United States',
     'level': 1,
-    'type': 'submarine'
+    'type': 'Submarine'
 }
 
 seawolf = {
     'name': 'USS Seawolf',
     'nation': 'United States',
     'level': 2,
-    'type': 'submarine'
+    'type': 'Submarine'
 }
 
 wahoo = {
     'name': 'USS Wahoo',
     'nation': 'United States',
     'level': 3,
-    'type': 'submarine'
+    'type': 'Submarine'
 }
 
-# Frigate names
+submarines = {
+    'name': 'Submarine',
+    'size': 3,
+    'armament': 'torpedo',
+    'torp acc': 40,
+    'torp instaSink': 75,
+    'ships': [nautilus, losAngeles, seawolf, wahoo]
+}
+
+# Corvette names
 
 knox = {
     'name': 'USS Knox',
     'nation': 'United States',
     'level': 0,
-    'type': 'frigate'
+    'type': 'Corvette'
 }
 
 brooke = {
     'name': 'USS Brooke',
     'nation': 'United States',
     'level': 1,
-    'type': 'frigate'
+    'type': 'Corvette'
 }
 
 independence = {
     'name': 'USS Independence',
     'nation': 'United States',
     'level': 2,
-    'type': 'frigate'
+    'type': 'Corvette'
 }
 
 constellation = {
     'name': 'USS Constellation',
     'nation': 'United States',
     'level': 3,
-    'type': 'frigate'
+    'type': 'Corvette'
 }
 
-
-carrierNames = (kittyHawk, enterprise, nimitz, ford)
+corvettes = {
+    'name': 'Corvette',
+    'size': 2,
+    'armament': 'torpedo',
+    'torp acc': 30,
+    'torp instaSink': 100,
+    'ships': [knox, brooke, independence, constellation]
+}
 
 class Carrier:
     def __init__(self, name, country, level):
         self.name = name
         self.country = country
         self.level = level
-        self.health = carriersType['size']
+        self.health = carriers['size']
         self.cooldown = 2
         self.ready = True
 
@@ -213,7 +245,7 @@ class Carrier:
             splitDamage = 0
 
         # Calculates if ship is InstaSunk
-        if instaSinkPotential and randint(0, 100-carriersType['torp instaSink']) == 0:
+        if instaSinkPotential and randint(0, 100 - carriers['torp instaSink']) == 0:
             instaSink = True
         else:
             instaSink = False
@@ -244,7 +276,7 @@ class Carrier:
 
 # Strings are placeholders
 
-ships = (carriersType, 'battleshipsType', 'destroyersType', 'submarineType', 'frigateType')
+ships = (carriers, battleships, destroyers, submarines, corvettes)
 
 # Localized test routine
 

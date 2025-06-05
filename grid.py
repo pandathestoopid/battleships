@@ -1,5 +1,6 @@
 from tkinter import *
 from functools import partial
+import time
 
 import warships
 
@@ -35,8 +36,8 @@ class Grid:
         return
 
     # Highlights multiple squares for ship placing
-    def highlight_ship(self, row, col, highlight):
-        for i in range(self.shipSize):
+    def highlight_ship(self, row, col, highlight, size):
+        for i in range(size):
             try:
                 if self.shipOrientation == 'horizontal':
                     self.buttons[row][col+i].config(bg=highlight)
@@ -46,12 +47,12 @@ class Grid:
                 break # Stops if out of bounds
 
     # When the mouse hovers over a button
-    def on_button_enter(self, event, row, col):
-        self.highlight_ship(row, col, 'gray')
+    def on_button_enter(self, event, row, col, size):
+        self.highlight_ship(row, col, 'gray', size)
 
     # When the mouse is not hovering over a button
-    def on_button_leave(self, event, row, col):
-        self.highlight_ship(row, col, '#eee')
+    def on_button_leave(self, event, row, col, size):
+        self.highlight_ship(row, col, '#eee', size)
 
     # Generates the grid with its buttons
     def generate(self, framePos):
@@ -95,17 +96,18 @@ class Grid:
 
         # Imports ships from warships.py
         for ship in warships.ships:
-            print
+            shipType = ship['name']
+            size = ship['size']
+            print(f'{shipType} is {size} squares long')
 
+            for row in range(self.size):
+                for col in range(self.size):
 
-        for row in range(self.size):
-            for col in range(self.size):
+                    square = self.buttons[row][col]
 
-                square = self.buttons[row][col]
-
-                # Bind the hovering methods
-                square.bind("<Enter>", partial(self.on_button_enter, row=row, col=col))
-                square.bind("<Leave>", partial(self.on_button_leave, row=row, col=col))
+                    # Bind the hovering methods
+                    square.bind("<Enter>", partial(self.on_button_enter, row=row, col=col, size=size))
+                    square.bind("<Leave>", partial(self.on_button_leave, row=row, col=col, size=size))
 
     def place(self, x, y):
         pass
