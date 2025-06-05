@@ -1,7 +1,7 @@
 from tkinter import *
 from functools import partial
 
-from ships import *
+import warships
 
 root = Tk()
 root.geometry('900x600')
@@ -12,7 +12,7 @@ root.resizable(False, False)
 squares = []
 
 # Test, value should be false
-shipsPlaced = True
+shipsPlaced = False
 
 
 class Grid:
@@ -24,22 +24,34 @@ class Grid:
 
         # Ship preview options
         self.shipSize = 3  # This is a placeholder
+        self.shipOrientation = 'horizontal' # Can be changed to vertical
 
     # Locks a square the user clicked on
     def click(self, x, y):
         if not shipsPlaced:
-            userGrid.placeShip(x, y)
+            userGrid.place(x, y)
         else:
             userGrid.lock(x, y)
         return
 
+    # Highlights multiple squares for ship placing
+    def highlight_ship(self, row, col, highlight):
+        for i in range(self.shipSize):
+            try:
+                if self.shipOrientation == 'horizontal':
+                    self.buttons[row][col+i].config(bg=highlight)
+                elif self.shipOrientation == 'vertical':
+                    self.buttons[row+i][col].config(bg=highlight)
+            except IndexError:
+                break # Stops if out of bounds
+
     # When the mouse hovers over a button
-    def on_button_enter(self, event):
-        event.widget.config(bg="gray")
+    def on_button_enter(self, event, row, col):
+        self.highlight_ship(row, col, 'gray')
 
     # When the mouse is not hovering over a button
-    def on_button_leave(self, event):
-        event.widget.config(bg="#eee")
+    def on_button_leave(self, event, row, col):
+        self.highlight_ship(row, col, '#eee')
 
     # Generates the grid with its buttons
     def generate(self, framePos):
@@ -59,12 +71,7 @@ class Grid:
             for col in range(self.size):
                 square = Button(
                     gridFrame, bg='#eee', activebackground='#ddd', width=3, height=1, relief='ridge', command=lambda r=letters[row], c=col+1: self.click(r, c))
-
                 square.grid(column=col+1, row=row+1)
-
-                # Bind the hovering methods
-                square.bind("<Enter>", self.on_button_enter)
-                square.bind("<Leave>", self.on_button_leave)
 
                 # Store buttons in 1 and 2D list
                 self.buttons[row][col] = square
@@ -83,8 +90,24 @@ class Grid:
             letterLabel = Label(gridFrame, text=letter, bg='white', padx=8, font=('Courier New', 10))
             letterLabel.grid(column=0, row=letters.index(letter)+1)
 
+    # Begins ship placement process
+    def start_ship_placement(self):
 
-    def placeShip(self, x, y):
+        # Imports ships from warships.py
+        for ship in warships.ships:
+            print
+
+
+        for row in range(self.size):
+            for col in range(self.size):
+
+                square = self.buttons[row][col]
+
+                # Bind the hovering methods
+                square.bind("<Enter>", partial(self.on_button_enter, row=row, col=col))
+                square.bind("<Leave>", partial(self.on_button_leave, row=row, col=col))
+
+    def place(self, x, y):
         pass
 
     def lock(self, x, y):
@@ -97,4 +120,5 @@ gridSize = 10
 
 userGrid = Grid(gridSize)
 userGrid.generate(0)
+userGrid.start_ship_placement()
 root.mainloop()

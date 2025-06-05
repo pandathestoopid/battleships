@@ -4,38 +4,163 @@ from weapons import *
 # All types of ships
 
 carriersType = {
-    'name': 'Aircraft Carriers',
+    'name': 'Aircraft Carrier',
     'size': 5,
     'armament': 'fighters',
     'torp acc': 90,
     'torp instaSink': 5
 }
 
-# Ship names
+# Carrier ship names
 
 kittyHawk = {
     'name': 'USS Kitty Hawk',
     'nation': 'United States',
-    'level': 0
+    'level': 0,
+    'type': 'carrier'
 }
 
 enterprise = {
     'name': 'USS Enterprise',
     'nation': 'United States',
-    'level': 1
+    'level': 1,
+    'type': 'carrier'
 }
 
 nimitz = {
     'name': 'Nimitz',
     'nation': 'United States',
-    'level': 2
+    'level': 2,
+    'type': 'carrier'
 }
 
 ford = {
     'name': 'Ford',
     'nation': 'United States',
-    'level': 3
+    'level': 3,
+    'type': 'carrier'
 }
+
+# Battleship names
+
+washington = {
+    'name': 'USS Washington',
+    'nation': 'United States',
+    'level': 0,
+    'type': 'battleship'
+}
+
+north_carolina = {
+    'name': 'USS North Carolina',
+    'nation': 'United States',
+    'level': 1,
+    'type': 'battleship'
+}
+
+wisconson = {
+    'name': 'USS Wisconsin',
+    'nation': 'United States',
+    'level': 2,
+    'type': 'battleship'
+}
+
+montana = {
+    'name': 'USS Montana',
+    'nation': 'United States',
+    'level': 3,
+    'type': 'battleship'
+}
+
+# Destroyer names
+
+decatur = {
+    'name': 'USS Decatur',
+    'nation': 'United States',
+    'level': 0,
+    'type': 'destroyer'
+}
+
+fletcher = {
+    'name': 'USS Fletcher',
+    'nation': 'United States',
+    'level': 1,
+    'type': 'destroyer'
+}
+
+spruance = {
+    'name': 'USS Spruance',
+    'nation': 'United States',
+    'level': 2,
+    'type': 'destroyer'
+}
+
+intrepid = {
+    'name': 'USS Intrepid',
+    'nation': 'United States',
+    'level': 3,
+    'type': 'destroyer'
+}
+
+# Submarine names
+
+nautilus = {
+    'name': 'USS Nautilus',
+    'nation': 'United States',
+    'level': 0,
+    'type': 'submarine'
+}
+
+losAngeles = {
+    'name': 'USS Los Angeles',
+    'nation': 'United States',
+    'level': 1,
+    'type': 'submarine'
+}
+
+seawolf = {
+    'name': 'USS Seawolf',
+    'nation': 'United States',
+    'level': 2,
+    'type': 'submarine'
+}
+
+wahoo = {
+    'name': 'USS Wahoo',
+    'nation': 'United States',
+    'level': 3,
+    'type': 'submarine'
+}
+
+# Frigate names
+
+knox = {
+    'name': 'USS Knox',
+    'nation': 'United States',
+    'level': 0,
+    'type': 'frigate'
+}
+
+brooke = {
+    'name': 'USS Brooke',
+    'nation': 'United States',
+    'level': 1,
+    'type': 'frigate'
+}
+
+independence = {
+    'name': 'USS Independence',
+    'nation': 'United States',
+    'level': 2,
+    'type': 'frigate'
+}
+
+constellation = {
+    'name': 'USS Constellation',
+    'nation': 'United States',
+    'level': 3,
+    'type': 'frigate'
+}
+
 
 carrierNames = (kittyHawk, enterprise, nimitz, ford)
 
@@ -116,6 +241,10 @@ class Carrier:
             print(f'Fighters are currently rearming and refueling. Please wait.')
         carrier.turn()
 
+
+# Strings are placeholders
+
+ships = (carriersType, 'battleshipsType', 'destroyersType', 'submarineType', 'frigateType')
 
 # Localized test routine
 
