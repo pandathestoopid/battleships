@@ -1,6 +1,5 @@
 from tkinter import *
 from functools import partial
-import time
 
 import warships
 
@@ -113,7 +112,7 @@ class Grid:
         pass
 
     def lock(self, x, y):
-        carrier.attack(x, y)
+        warships.carrier.attack(x, y)
 
 
 

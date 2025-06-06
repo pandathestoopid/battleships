@@ -157,42 +157,42 @@ submarines = {
     'ships': [nautilus, losAngeles, seawolf, wahoo]
 }
 
-# Corvette names
+# Frigate names
 
 knox = {
     'name': 'USS Knox',
     'nation': 'United States',
     'level': 0,
-    'type': 'Corvette'
+    'type': 'Frigate'
 }
 
 brooke = {
     'name': 'USS Brooke',
     'nation': 'United States',
     'level': 1,
-    'type': 'Corvette'
+    'type': 'Frigate'
 }
 
 independence = {
     'name': 'USS Independence',
     'nation': 'United States',
     'level': 2,
-    'type': 'Corvette'
+    'type': 'Frigate'
 }
 
 constellation = {
     'name': 'USS Constellation',
     'nation': 'United States',
     'level': 3,
-    'type': 'Corvette'
+    'type': 'Frigate'
 }
 
-corvettes = {
-    'name': 'Corvette',
+frigates = {
+    'name': 'Frigate',
     'size': 2,
-    'armament': 'torpedo',
+    'armament': 'autocannon',
     'torp acc': 30,
-    'torp instaSink': 100,
+    'torp instaSink': 75,
     'ships': [knox, brooke, independence, constellation]
 }
 
@@ -276,7 +276,7 @@ class Carrier:
 
 # Strings are placeholders
 
-ships = (carriers, battleships, destroyers, submarines, corvettes)
+ships = (carriers, battleships, destroyers, submarines, frigates)
 
 # Localized test routine
 
