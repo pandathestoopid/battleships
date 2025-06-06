@@ -37,6 +37,8 @@ carriers = {
     'armament': 'fighter',
     'torp acc': 90,
     'torp instaSink': 5,
+    'cooldown': 2,
+    'runBreak': 3,
     'ships': [kittyHawk, enterprise, nimitz, ford]
 }
 
@@ -196,24 +198,57 @@ frigates = {
     'ships': [knox, brooke, independence, constellation]
 }
 
-class Carrier:
-    def __init__(self, name, country, level):
-        self.name = name
+class Ship:
+    def __init__(self, shipType, level, country):
+
+        # User parameter-dependent attributes
         self.country = country
         self.level = level
-        self.health = carriers['size']
-        self.cooldown = 2
+
+        # Ship class-dependent attributes
+        self.type = shipType['name']
+        self.health = shipType['size']
+        self.cooldown = shipType['cooldown']
+        self.torpedoAcc = shipType['torp acc']
+        self.torpedoInstaSink = shipType['torp instaSink']
+
+        # Ship-dependent attributes
+        self.name = shipType['ships'][level]['name']
+
+        # Fixed attributes
         self.ready = True
 
-        # Determines Runway Integrity, how much health the ship can drop to before it cannot launch fighters
+        # Unique Standard attributes
 
-        if level >= 1:
-            self.runBreak = 2
-        else:
-            self.runBreak = 3
+        # Runway integrity for carriers, normally 3 unless level 1+, then 4
+        self.runBreak = shipType['runBreak']
+        if self.level > 0:
+            self.runBreak += 1
+
+        # Armor for battleships, 30% if level 1+, otherwise 0
+        self.armor = 0
+        if self.level > 0:
+            self.armor += 30
+
+        # Active defense for destroyers, 30% if level 1+, otherwise 0
+        self.activeDefense = 0
+        if self.level > 0:
+            self.activeDefense += 30
+        self.activeDefenseRange = 1
+
+        # Stealth for submarines, 30% if level 1+, 50% if level 2+, otherwise 0
+        self.stealth = 0
+        if self.level > 0:
+            self.stealth += 30
+        elif self.level > 1:
+            self.stealth += 50
+
+        # Evasion for frigates, 30% if level 1+, otherwise 0
+        self.evasion = 0
+        if self.level > 0:
+            self.evasion += 30
 
     # Ship status
-
     def __str__(self):
         return f'{self.country} Level {self.level} Aircraft Carrier: {self.name}'
 
@@ -278,6 +313,21 @@ class Carrier:
 
 ships = (carriers, battleships, destroyers, submarines, frigates)
 
+# Levels unlocked by user (placeholder)
+caLevel = 0
+baLevel = 0
+deLevel = 0
+suLevel = 0
+frLevel = 0
+
+# Country used by player (placeholder)
+country = 'United States'
+
+
 # Localized test routine
 
-carrier = Carrier(enterprise['name'], enterprise['nation'], enterprise['level'])
+carrier = Ship(carriers, caLevel, country)
+battleship = Ship(battleships, baLevel, country)
+destroyer = Ship(destroyers, deLevel, country)
+submarine = Ship(submarines, suLevel, country)
+frigate = Ship(frigates, frLevel, country)
