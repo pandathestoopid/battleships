@@ -17,14 +17,16 @@ shipsPlaced = False
 
 class Grid:
     def __init__(self, size):
-        self.size = size
+        self.gridSize = size
 
         # 2D list of buttons for later reference
         self.buttons = [[None for _ in range(size)] for _ in range(size)]
 
         # Ship preview options
-        self.shipSize = 3  # This is a placeholder
         self.shipOrientation = 'horizontal' # Can be changed to vertical
+
+        # Which ship is being previewed/placed
+        self.shipIndex = 0
 
     # Locks a square the user clicked on
     def click(self, x, y):
@@ -67,8 +69,8 @@ class Grid:
         # Adds the buttons to the grid
         letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
-        for row in range(self.size):
-            for col in range(self.size):
+        for row in range(self.gridSize):
+            for col in range(self.gridSize):
                 square = Button(
                     gridFrame, bg='#eee', activebackground='#ddd', width=3, height=1, relief='ridge', command=lambda r=letters[row], c=col+1: self.click(r, c))
                 square.grid(column=col+1, row=row+1)
@@ -78,41 +80,48 @@ class Grid:
                 squares.append(square)
 
 
-        # Labels for top row (numbers)
+        # Labels for the top row (numbers)
 
-        for num in range(self.size):
+        for num in range(self.gridSize):
             numLabel = Label(gridFrame, text=num+1, bg='white', font=('Courier New', 10))
             numLabel.grid(column=num+1, row=0)
 
-        # Labels for left column (letters)
+        # Labels for the left column (letters)
 
         for letter in letters:
             letterLabel = Label(gridFrame, text=letter, bg='white', padx=8, font=('Courier New', 10))
             letterLabel.grid(column=0, row=letters.index(letter)+1)
 
-    # Begins ship placement process
+    # Begins the ship placement process
     def start_ship_placement(self):
 
-        # Imports ships from warships.py
-        for ship in warships.ships:
-            shipType = ship['name']
-            size = ship['size']
-            print(f'{shipType} is {size} squares long')
+        if self.shipIndex >= len(warships.ships):
+            print('All ships placed, may the best Admiral win!')
+            # Will make this start the game, return is temporary
+            return
 
-            for row in range(self.size):
-                for col in range(self.size):
+        # Sets the attributes for the current ship that is being placed
+        currentShip = warships.ships[self.shipIndex]
+        self.shipType = currentShip['name']
+        self.shipSize = currentShip['size']
+        print(f'{self.shipType} is {self.shipSize} squares long')
 
-                    square = self.buttons[row][col]
+        for row in range(self.gridSize):
+            for col in range(self.gridSize):
 
-                    # Bind the hovering methods
-                    square.bind("<Enter>", partial(self.on_button_enter, row=row, col=col, size=size))
-                    square.bind("<Leave>", partial(self.on_button_leave, row=row, col=col, size=size))
+                square = self.buttons[row][col]
 
+                # Bind the hovering methods and passes the size to the highlighing method
+                square.bind("<Enter>", lambda event, r=row, c=col: self.on_button_enter(event, r, c, self.shipSize))
+                square.bind("<Leave>", lambda event, r=row, c=col: self.on_button_leave(event, r, c, self.shipSize))
+
+    # Places the ship after clicking the desired square
     def place(self, x, y):
         pass
 
+    # Locks the square after clicking the desired square
     def lock(self, x, y):
-        warships.carrier.attack(x, y)
+        pass
 
 
 
