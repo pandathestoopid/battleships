@@ -208,7 +208,7 @@ class Ship:
         # Ship class-dependent attributes
         self.type = shipType['name']
         self.health = shipType['size']
-        self.cooldown = shipType['cooldown']
+        # self.cooldown = shipType['cooldown']
         self.torpedoAcc = shipType['torp acc']
         self.torpedoInstaSink = shipType['torp instaSink']
 
@@ -221,9 +221,10 @@ class Ship:
         # Unique Standard attributes
 
         # Runway integrity for carriers, normally 3 unless level 1+, then 4
-        self.runBreak = shipType['runBreak']
-        if self.level > 0:
-            self.runBreak += 1
+        if shipType == carriers:
+            self.runBreak = shipType['runBreak']
+            if self.level > 0:
+                self.runBreak += 1
 
         # Armor for battleships, 30% if level 1+, otherwise 0
         self.armor = 0
