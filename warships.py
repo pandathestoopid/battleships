@@ -159,7 +159,7 @@ submarines = {
     'torp acc': 40,
     'torp instaSink': 75,
     'cooldown': 6,
-    'torpTubes': 2,
+    'shots': 2,
     'ships': [nautilus, losAngeles, seawolf, wahoo]
 }
 
@@ -200,7 +200,7 @@ frigates = {
     'torp acc': 30,
     'torp instaSink': 75,
     'cooldown': 5,
-    'jam': 3,
+    'shots': 3,
     'ships': [knox, brooke, independence, constellation]
 }
 
@@ -211,10 +211,14 @@ class Ship:
         self.country = country
         self.level = level
 
-        # Ship class-dependent attributes
+        # Ship type-dependent attributes
         self.type = shipType['name']
         self.health = shipType['size']
-        # self.cooldown = shipType['cooldown']
+        self.shots = 1 # By default, the number of consecutive shots before cooldown is 1, but for frigates and submarines it can be higher.
+        if shipType == submarines or shipType == frigates:
+            self.shots = shipType['shots']
+        self.armament = shipType['armament']
+        self.cooldown = shipType['cooldown']
         self.torpedoAcc = shipType['torp acc']
         self.torpedoInstaSink = shipType['torp instaSink']
 
