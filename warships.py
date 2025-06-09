@@ -78,6 +78,7 @@ battleships = {
     'armament': 'gun',
     'torp acc': 70,
     'torp instaSink': 15,
+    'cooldown': 1,
     'ships': [washington, north_carolina, wisconson, montana]
 }
 
@@ -117,6 +118,7 @@ destroyers = {
     'armament': 'missile',
     'torp acc': 50,
     'torp instaSink': 55,
+    'cooldown': 3,
     'ships': [decatur, fletcher, spruance, intrepid]
 }
 
@@ -156,6 +158,8 @@ submarines = {
     'armament': 'torpedo',
     'torp acc': 40,
     'torp instaSink': 75,
+    'cooldown': 6,
+    'torpTubes': 2,
     'ships': [nautilus, losAngeles, seawolf, wahoo]
 }
 
@@ -195,6 +199,8 @@ frigates = {
     'armament': 'autocannon',
     'torp acc': 30,
     'torp instaSink': 75,
+    'cooldown': 5,
+    'jam': 3,
     'ships': [knox, brooke, independence, constellation]
 }
 
