@@ -34,7 +34,12 @@ ford = {
 carriers = {
     'name': 'Aircraft Carrier',
     'size': 5,
-    'armament': 'fighter',
+    'mArmament': 'Strike aircraft',
+    'mArmDesc': 'A fleet of multi-role strike aircraft which can deliver shells, bombs, and torpedoes to enemy vessels. '
+                'Takes one turn to cool down between sorties. Massive damage potential, but low accuracy. Vulnerable to being shot down.',
+    'aaArmament': 'Fighter aircraft',
+    'aaArmDesc': 'A fleet of air-superiority aircraft which can fire air-to-air missiles at enemy aircraft.'
+                 'Three groups cycle to keep defenses always active, making the carrier almost invincible to air attacks.',
     'torp acc': 90,
     'torp instaSink': 5,
     'cooldown': 2,
@@ -51,7 +56,7 @@ washington = {
     'type': 'Battleship'
 }
 
-north_carolina = {
+northCarolina = {
     'name': 'USS North Carolina',
     'nation': 'United States',
     'level': 1,
@@ -75,11 +80,14 @@ montana = {
 battleships = {
     'name': 'Battleship',
     'size': 4,
-    'armament': 'gun',
+    'mArmament': '18-inch gun',
+    'mArmDesc': 'An array of 18-inch guns, with consistent damage output and decent accuracy. Can get significant upgrades.',
+    'aaArmament': 'AAA',
+    'aaArmDesc': 'An array of anti-aircraft artillery (Triple-A) consisting of heavy cannons with proximity-fuse high explosive shells and machine guns.',
     'torp acc': 70,
     'torp instaSink': 15,
     'cooldown': 1,
-    'ships': [washington, north_carolina, wisconson, montana]
+    'ships': [washington, northCarolina, wisconson, montana]
 }
 
 # Destroyers
@@ -115,7 +123,13 @@ intrepid = {
 destroyers = {
     'name': 'Destroyer',
     'size': 3,
-    'armament': 'missile',
+    'mArmament': 'missile',
+    'mArmDesc': 'A guided air-based warhead which has high damage and accuracy, but high cooldown. '
+                'Can be intercepted by some ships, and reveals nearby scout drones. '
+                'Can eject the aerodynamic cap to reveal a sharp nose that can pierce water to hit submarines.',
+    'aaArmament': 'Goalkeeper autocannon',
+    'aaArmDesc': 'A gatling-style autocannon that fires 30mm explosive redbull cans at 4,500 RPM.'
+                 'Two are mounted on the ship which cycle to prevent overheating.',
     'torp acc': 50,
     'torp instaSink': 55,
     'cooldown': 3,
@@ -155,7 +169,12 @@ wahoo = {
 submarines = {
     'name': 'Submarine',
     'size': 3,
-    'armament': 'torpedo',
+    'mArmament': 'torpedo',
+    'mArmDesc': 'A large, guided warhead that travels under the ocean to a target. '
+                'Higher damage potential and lower accuracy the smaller the target ship. '
+                'Reloads for 5 turns after firing twice.',
+    'aaArmament': 'None',
+    'aaArmDesc': 'The submarine does not have AA armament as it is not vulnerable to conventional aircraft ordinance.',
     'torp acc': 40,
     'torp instaSink': 75,
     'cooldown': 6,
@@ -196,7 +215,13 @@ constellation = {
 frigates = {
     'name': 'Frigate',
     'size': 2,
-    'armament': 'autocannon',
+    'mArmament': '120mm autocannon',
+    'mArmDesc': 'An improved version of the BOFORS L/50 automatic gun, firing 120mm APFSDS shells at 80 RPM. '
+                'Fires in bursts of five for each turn. Has a chance to spread its 1 damage over two squares. '
+                'Chance to overheat after 3 consecutive fires, extreme chance after 4 fires.',
+    'aaArmament': 'Phalanx autocannon',
+    'aaArmDesc': 'A gatling-style autocannon that fires 20mm explosive redbull cans at 6,000 RPM.'
+                 'Two are mounted on the ship which cycle to prevent overheating.',
     'torp acc': 30,
     'torp instaSink': 75,
     'cooldown': 5,
