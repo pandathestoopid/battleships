@@ -120,6 +120,8 @@ intrepid = {
     'type': 'Destroyer'
 }
 
+usDests = [decatur, fletcher, spruance, intrepid]
+
 destroyers = {
     'name': 'Destroyer',
     'size': 3,
@@ -133,7 +135,7 @@ destroyers = {
     'torp acc': 50,
     'torp instaSink': 55,
     'cooldown': 3,
-    'ships': [decatur, fletcher, spruance, intrepid]
+    'ships': [usDests]
 }
 
 # Submarines
@@ -166,6 +168,10 @@ wahoo = {
     'type': 'Submarine'
 }
 
+# List of each nations's subs
+usSubs = [nautilus, losAngeles, seawolf, wahoo]
+sovSubs = None
+
 submarines = {
     'name': 'Submarine',
     'size': 3,
@@ -180,7 +186,7 @@ submarines = {
     'torp instaSink': 75,
     'cooldown': 6,
     'shots': 2,
-    'ships': [nautilus, losAngeles, seawolf, wahoo]
+    'ships': [usSubs, sovSubs]
 }
 
 # Frigate names
@@ -213,6 +219,10 @@ constellation = {
     'type': 'Frigate'
 }
 
+# List of each nation's frigates
+usFrigs = [knox, brooke, independence, constellation]
+sovFrigs = None
+
 frigates = {
     'name': 'Frigate',
     'size': 2,
@@ -227,11 +237,11 @@ frigates = {
     'torp instaSink': 75,
     'cooldown': 5,
     'shots': 3,
-    'ships': [knox, brooke, independence, constellation]
+    'ships': [usFrigs, sovFrigs]
 }
 
 class Ship:
-    def __init__(self, shipType, level, country):
+    def __init__(self, shipType, level, country, upConfig):
 
         # User parameter-dependent attributes
         self.country = country
@@ -359,6 +369,10 @@ frLevel = 0
 
 # Country used by player (placeholder)
 country = 'United States'
+
+# Upgrade config used by player (placeholder)
+
+
 
 
 # Localized test routine
