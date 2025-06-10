@@ -127,9 +127,9 @@ destroyers = {
     'mArmDesc': 'A guided air-based warhead which has high damage and accuracy, but high cooldown. '
                 'Can be intercepted by some ships, and reveals nearby scout drones. '
                 'Can eject the aerodynamic cap to reveal a sharp nose that can pierce water to hit submarines.',
-    'aaArmament': 'Goalkeeper autocannon',
-    'aaArmDesc': 'A gatling-style autocannon that fires 30mm explosive redbull cans at 4,500 RPM.'
-                 'Two are mounted on the ship which cycle to prevent overheating.',
+    'aaArmament': 'RIM SAM',
+    'aaArmDesc': 'Multiple pods of RIM surface-to-air missiles, guided by the ship\'s onboard radar.'
+                 'Very high accuracy, but vulnerable to swarm attacks.',
     'torp acc': 50,
     'torp instaSink': 55,
     'cooldown': 3,
@@ -173,8 +173,9 @@ submarines = {
     'mArmDesc': 'A large, guided warhead that travels under the ocean to a target. '
                 'Higher damage potential and lower accuracy the smaller the target ship. '
                 'Reloads for 5 turns after firing twice.',
-    'aaArmament': 'None',
-    'aaArmDesc': 'The submarine does not have AA armament as it is not vulnerable to conventional aircraft ordinance.',
+    'aaArmament': 'VLS SSAM',
+    'aaArmDesc': 'A group of sub-surface-to-air missiles stored in the submarine\'s vertical launch system. Fires at incoming aircraft.'
+                 'Has significantly less accuracy than standard SAMs, so placing the sub near other air defense would be beneficial.',
     'torp acc': 40,
     'torp instaSink': 75,
     'cooldown': 6,
@@ -219,8 +220,8 @@ frigates = {
     'mArmDesc': 'An improved version of the BOFORS L/50 automatic gun, firing 120mm APFSDS shells at 80 RPM. '
                 'Fires in bursts of five for each turn. Has a chance to spread its 1 damage over two squares. '
                 'Chance to overheat after 3 consecutive fires, extreme chance after 4 fires.',
-    'aaArmament': 'Phalanx autocannon',
-    'aaArmDesc': 'A gatling-style autocannon that fires 20mm explosive redbull cans at 6,000 RPM.'
+    'aaArmament': 'AA autocannon',
+    'aaArmDesc': 'A gatling-style autocannon that fires 20mm explosive redbull cans at 6,000 RPM towards incoming aircraft.'
                  'Two are mounted on the ship which cycle to prevent overheating.',
     'torp acc': 30,
     'torp instaSink': 75,
