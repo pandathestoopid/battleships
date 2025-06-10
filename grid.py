@@ -25,9 +25,9 @@ class Grid:
     # Locks a square the user clicked on
     def click(self, x, y):
         if not shipsPlaced:
-            userGrid.place(x, y)
+            self.place(x, y)
         else:
-            userGrid.lock(x, y)
+            self.lock(x, y)
         return
 
     # Highlights multiple squares for ship placing
@@ -50,7 +50,7 @@ class Grid:
         self.highlight_ship(row, col, '#eee', size)
 
     # Generates the grid with its buttons
-    def generate(self, playerFrame):
+    def generate(self):
 
         # Makes a frame for the game
         playerFrame = Frame(self.root, bg='white')
