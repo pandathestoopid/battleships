@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="71827c2b-2307-4f98-9f43-90112c1fb4a0" name="Changes" comment="Began working on implementing ship upgrades + other nation's ships">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="71827c2b-2307-4f98-9f43-90112c1fb4a0" name="Changes" comment="stupid extra stuff">
+      <change afterPath="$PROJECT_DIR$/assets/ships/USS Kitty Hawk.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inter.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/Inter.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shop.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warships.py" beforeDir="false" afterPath="$PROJECT_DIR$/warships.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager" show_ignored="true" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -41,25 +43,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.Run main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.grid.executor&quot;: &quot;Run&quot;,
-    &quot;Python.grid.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ships.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Run main.executor": "Run",
+    "Python.grid.executor": "Run",
+    "Python.grid.py.executor": "Run",
+    "Python.ships.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/jonah/PycharmProjects/battleships/assets/ships",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jonah\PycharmProjects\battleships\assets\ships" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jonah\PycharmProjects\battleships\assets\fonts" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.Run main">
     <configuration name="Run main" type="PythonConfigurationType" factoryName="Python">
       <module name="PythonProject2" />
@@ -133,7 +144,8 @@
       <workItem from="1749162142961" duration="1128000" />
       <workItem from="1749422202508" duration="134000" />
       <workItem from="1749426494896" duration="5837000" />
-      <workItem from="1749522268004" duration="6898000" />
+      <workItem from="1749522268004" duration="7227000" />
+      <workItem from="1749589550501" duration="1116000" />
     </task>
     <task id="LOCAL-00001" summary="Added more cooldowns and added cooldown conditions in the dictionaries">
       <option name="closed" value="true" />
@@ -175,7 +187,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749524294430</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added most of the shop">
+      <option name="closed" value="true" />
+      <created>1749556021664</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749556021664</updated>
+    </task>
+    <task id="LOCAL-00007" summary="stupid extra stuff">
+      <option name="closed" value="true" />
+      <created>1749556086721</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749556086721</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,13 +226,15 @@
     <MESSAGE value="Fixed AA armament details" />
     <MESSAGE value="Fixed spelling error" />
     <MESSAGE value="Began working on implementing ship upgrades + other nation's ships" />
-    <option name="LAST_COMMIT_MESSAGE" value="Began working on implementing ship upgrades + other nation's ships" />
+    <MESSAGE value="Added most of the shop" />
+    <MESSAGE value="stupid extra stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="stupid extra stuff" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/battleshits$grid.coverage" NAME="grid Coverage Results" MODIFIED="1749010730302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/battleships$grid_py.coverage" NAME="grid.py Coverage Results" MODIFIED="1749549566720" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/battleshits$ships.coverage" NAME="ships Coverage Results" MODIFIED="1749010776811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/battleshits$grid_py.coverage" NAME="grid.py Coverage Results" MODIFIED="1749011236569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/battleships$Run_main.coverage" NAME="Run main Coverage Results" MODIFIED="1749555838983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/battleships$Run_main.coverage" NAME="Run main Coverage Results" MODIFIED="1749589547741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

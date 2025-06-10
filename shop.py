@@ -57,8 +57,10 @@ class Shop:
                 shipFrame.grid(column=c, row=0, sticky='w')
 
                 # Ship's image (will implement later)
-                # img = Image.open()
-                shipImage = Label(shipFrame, text='placeholder', padx=2, pady=5)
+                img = Image.open(f'assets/ships/{ship['name']}.jpg')
+                tkImg = ImageTk.PhotoImage(img)
+                shipImage = Label(shipFrame, image=tkImg, padx=2, pady=5)
+                shipImage.image = tkImg
                 shipImage.grid(column=0, row=0, sticky='w')
 
                 # Label for name of the ship
