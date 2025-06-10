@@ -3,7 +3,7 @@ from random import *
 import shop
 import grid
 
-countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'France', 'Japan', 'China']
+countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'Japan']
 
 # Carriers
 
@@ -21,7 +21,7 @@ enterprise = {
     'type': 'Carrier'
 }
 
-nimitz = {
+lincoln = {
     'name': 'USS Abraham Lincoln',
     'nation': 'United States',
     'level': 2,
@@ -29,14 +29,14 @@ nimitz = {
 }
 
 ford = {
-    'name': 'USS John F. Kennedy',
+    'name': 'USS Gerald R. Ford',
     'nation': 'United States',
     'level': 3,
     'type': 'Carrier'
 }
 
 # List of each nation's carriers
-usCars = [kittyHawk, enterprise, nimitz, ford]
+usCars = [kittyHawk, enterprise, lincoln, ford]
 sovCars = None
 
 carriers = {

@@ -40,6 +40,9 @@ class Shop:
         shopFrame = Frame(self.root)
         shopFrame.grid(column=2, row=1, padx=10, pady=10, sticky='w')
 
+        # Test for images
+        self.listings = self.caListings
+
         for i, shipClass in enumerate(self.listings):
 
             # Generates labels for the ship classes on sale
@@ -57,11 +60,12 @@ class Shop:
                 shipFrame.grid(column=c, row=0, sticky='w')
 
                 # Ship's image (will implement later)
-                img = Image.open(f'assets/ships/{ship['name']}.jpg')
-                tkImg = ImageTk.PhotoImage(img)
-                shipImage = Label(shipFrame, image=tkImg, padx=2, pady=5)
-                shipImage.image = tkImg
-                shipImage.grid(column=0, row=0, sticky='w')
+                print(ship)
+                # img = Image.open(f'assets/ships/{ship['name']}.jpg')
+                # tkImg = ImageTk.PhotoImage(img)
+                # shipImage = Label(shipFrame, image=tkImg, padx=2, pady=5)
+                # shipImage.image = tkImg
+                # shipImage.grid(column=0, row=0, sticky='w')
 
                 # Label for name of the ship
                 shipName = Label(shipFrame, text=ship['name'], font=('Inter', 10, 'bold'), padx=5, pady=5)
