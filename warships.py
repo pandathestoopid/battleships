@@ -63,7 +63,7 @@ northCarolina = {
     'type': 'Battleship'
 }
 
-wisconson = {
+wisconsin = {
     'name': 'USS Wisconsin',
     'nation': 'United States',
     'level': 2,
@@ -87,7 +87,7 @@ battleships = {
     'torp acc': 70,
     'torp instaSink': 15,
     'cooldown': 1,
-    'ships': [washington, northCarolina, wisconson, montana]
+    'ships': [washington, northCarolina, wisconsin, montana]
 }
 
 # Destroyers
