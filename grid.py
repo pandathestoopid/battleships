@@ -1,13 +1,6 @@
 from tkinter import *
-from functools import partial
 
 import warships
-
-root = Tk()
-root.geometry('900x600')
-root.title('Battleships')
-root.configure(bg='white', border=25)
-root.resizable(False, False)
 
 squares = []
 
@@ -16,8 +9,9 @@ shipsPlaced = False
 
 
 class Grid:
-    def __init__(self, size):
+    def __init__(self, size, root):
         self.gridSize = size
+        self.root = root
 
         # 2D list of buttons for later reference
         self.buttons = [[None for _ in range(size)] for _ in range(size)]
@@ -56,11 +50,11 @@ class Grid:
         self.highlight_ship(row, col, '#eee', size)
 
     # Generates the grid with its buttons
-    def generate(self, framePos):
+    def generate(self, playerFrame):
 
         # Makes a frame for the game
-        playerFrame = Frame(root, bg='white')
-        playerFrame.grid(column=framePos, row=0, padx=10, pady=10)
+        playerFrame = Frame(self.root, bg='white')
+        playerFrame.grid(column=1, row=0, padx=10, pady=10)
 
         # Makes a frame for the grid
         gridFrame = Frame(playerFrame, bg='white')
@@ -123,12 +117,3 @@ class Grid:
     def lock(self, x, y):
         pass
 
-
-
-
-gridSize = 10
-
-userGrid = Grid(gridSize)
-userGrid.generate(0)
-userGrid.start_ship_placement()
-root.mainloop()

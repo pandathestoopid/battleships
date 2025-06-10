@@ -1,5 +1,9 @@
 from random import *
-from weapons import *
+
+import shop
+import grid
+
+countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'France', 'Japan', 'China']
 
 # Carriers
 
@@ -31,6 +35,10 @@ ford = {
     'type': 'Carrier'
 }
 
+# List of each nation's carriers
+usCars = [kittyHawk, enterprise, nimitz, ford]
+sovCars = None
+
 carriers = {
     'name': 'Aircraft Carrier',
     'size': 5,
@@ -44,7 +52,7 @@ carriers = {
     'torp instaSink': 5,
     'cooldown': 2,
     'runBreak': 3,
-    'ships': [kittyHawk, enterprise, nimitz, ford]
+    'ships': [usCars, sovCars]
 }
 
 # Battleships
@@ -77,6 +85,10 @@ montana = {
     'type': 'Battleship'
 }
 
+# List of each nation's battleships
+usBats = [washington, northCarolina, wisconsin, montana]
+sovBats = None
+
 battleships = {
     'name': 'Battleship',
     'size': 4,
@@ -87,7 +99,7 @@ battleships = {
     'torp acc': 70,
     'torp instaSink': 15,
     'cooldown': 1,
-    'ships': [washington, northCarolina, wisconsin, montana]
+    'ships': [usBats, sovBats]
 }
 
 # Destroyers
@@ -121,6 +133,7 @@ intrepid = {
 }
 
 usDests = [decatur, fletcher, spruance, intrepid]
+sovDests = None
 
 destroyers = {
     'name': 'Destroyer',
@@ -135,7 +148,7 @@ destroyers = {
     'torp acc': 50,
     'torp instaSink': 55,
     'cooldown': 3,
-    'ships': [usDests]
+    'ships': [usDests, sovDests]
 }
 
 # Submarines
@@ -241,7 +254,7 @@ frigates = {
 }
 
 class Ship:
-    def __init__(self, shipType, level, country, upConfig):
+    def __init__(self, shipType, level, country):
 
         # User parameter-dependent attributes
         self.country = country
@@ -253,13 +266,13 @@ class Ship:
         self.shots = 1 # By default, the number of consecutive shots before cooldown is 1, but for frigates and submarines it can be higher.
         if shipType == submarines or shipType == frigates:
             self.shots = shipType['shots']
-        self.armament = shipType['armament']
+        self.armament = shipType['mArmament']
         self.cooldown = shipType['cooldown']
         self.torpedoAcc = shipType['torp acc']
         self.torpedoInstaSink = shipType['torp instaSink']
 
         # Ship-dependent attributes
-        self.name = shipType['ships'][level]['name']
+        self.name = shipType['ships'][countries.index(self.country)][level]
 
         # Fixed attributes
         self.ready = True
