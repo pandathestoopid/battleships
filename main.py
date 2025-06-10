@@ -9,7 +9,7 @@ import shop
 # Window specs
 
 root = Tk()
-root.geometry('900x600')
+root.geometry('1600x900')
 root.title('Battleships')
 root.configure(bg='white', border=25)
 root.resizable(False, False)

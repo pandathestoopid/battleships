@@ -22,14 +22,14 @@ enterprise = {
 }
 
 nimitz = {
-    'name': 'Nimitz',
+    'name': 'USS Abraham Lincoln',
     'nation': 'United States',
     'level': 2,
     'type': 'Carrier'
 }
 
 ford = {
-    'name': 'Ford',
+    'name': 'USS John F. Kennedy',
     'nation': 'United States',
     'level': 3,
     'type': 'Carrier'
