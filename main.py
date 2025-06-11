@@ -25,9 +25,9 @@ defaultFont.configure(family='Inter', size=11)
 
 # Grid routine, will put into something else soon
 
-userGrid = grid.Grid(10, root = root)
-userGrid.generate()
-userGrid.start_ship_placement()
+# userGrid = grid.Grid(10, root = root)
+# userGrid.generate()
+# userGrid.start_ship_placement()
 
 shop = shop.Shop(root = root, country = 'United States')
 shop.open()
