@@ -4,6 +4,8 @@ from PIL import ImageTk, Image
 
 import warships
 
+points = 10000
+
 class Shop:
     def __init__(self, root, country):
 
@@ -90,6 +92,8 @@ class Shop:
                 spaceRow = Label(shipFrame, text='', padx=5, pady=5)
                 spaceRow.grid(column=0, row=5)
 
+                # Add the dictionary stuff later
+
     def buy(self):
-        print('cha-ching')
+        if points
         pass
