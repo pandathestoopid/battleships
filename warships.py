@@ -5,6 +5,14 @@ import grid
 
 countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'Japan']
 
+countryColors = {
+    'United States': '#0a3e8a',
+    'Soviet Union': '#d93604',
+    'United Kingdom': '#03194a',
+    'Germany': '#ad8603',
+    'Japan': '#bb0045'
+}
+
 # Carriers
 
 kittyHawk = {
