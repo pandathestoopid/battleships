@@ -8,10 +8,14 @@ import warships
 points = 10000
 
 class Shop:
-    def __init__(self, root, country):
+    def __init__(self, root, country, colors):
 
         # GUI constructor
         self.root = root
+        self.color = colors[0]
+        self.textColor = colors[1]
+        self.accentColor1 = colors[2]
+        self.accentColor2 = colors[3]
 
         # Country the player is shopping for
         self.country = country
@@ -38,28 +42,28 @@ class Shop:
     def open(self):
 
         # Shop frame
-        shopFrame = Frame(self.root, bg='white')
+        shopFrame = Frame(self.root, bg=self.accentColor1)
         shopFrame.grid(column=1, row=0, padx=10, pady=10)
 
         # Title, framed with three labels for aesthetic purposes
-        titleFrame = Frame(shopFrame, bg='white')
-        titleFrame.grid(column=0, row=0, padx=10, sticky='w')
-        titleLabel1 = Label(titleFrame, text=f'Shop for', font=('Inter', 12, 'bold'), bg='white')
+        titleFrame = Frame(shopFrame, bg=self.accentColor1)
+        titleFrame.grid(column=0, row=0, padx=10, pady=10, sticky='w')
+        titleLabel1 = Label(titleFrame, text=f'Shop for', font=('Inter', 12, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel1.grid(column=0, row=0, sticky='w')
         titleLabel2 = Label(titleFrame, text=f'{self.country}', font=('Inter', 12, 'bold'), bg=warships.countryColors[self.country], fg='white')
         titleLabel2.grid(column=1, row=0, sticky='w')
-        titleLabel3 = Label(titleFrame, text=f'ships', font=('Inter', 12, 'bold'), bg='white')
+        titleLabel3 = Label(titleFrame, text=f'ships', font=('Inter', 12, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel3.grid(column=2, row=0, sticky='w')
 
         # Points available counter, framed with two labels for aesthetic purposes
-        pointsFrame = Frame(shopFrame, bg='white')
+        pointsFrame = Frame(shopFrame, bg=self.accentColor1)
         pointsFrame.grid(column=0, row=1, padx=10, pady=10, sticky='w')
-        self.pointsAvailable = Label(pointsFrame, text=f'Points Available:  {points}', font=('Inter', 11, 'bold'), bg='white')
+        self.pointsAvailable = Label(pointsFrame, text=f'Points Available:  {points}', font=('Inter', 11, 'bold'), bg=self.accentColor1, fg=self.textColor)
         self.pointsAvailable.grid(column=0, row=1, sticky='w')
-        pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 11, 'bold'), fg='#00008B', bg='white')
+        pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 11, 'bold'), fg='#006abb', bg=self.accentColor1)
         pointsCurrency.grid(column=1, row=1, sticky='w')
 
-        listingsFrame = Frame(shopFrame)
+        listingsFrame = Frame(shopFrame, bg=self.accentColor1)
         listingsFrame.grid(column=0, row=2, padx=10, pady=10, sticky='w')
 
         # Dictionary of buttons for the shop for referencing
@@ -69,22 +73,22 @@ class Shop:
         for i, shipClass in enumerate(self.listings):
 
             # Generates labels for the ship classes on sale
-            classLabel = Label(listingsFrame, text=self.classNames[i].upper(), font=('Inter', 10, 'bold'), padx=5, pady=10)
+            classLabel = Label(listingsFrame, text=self.classNames[i].upper(), font=('Inter', 10, 'bold'), padx=5, pady=10, bg=self.accentColor1, fg=self.textColor, anchor='w')
             classLabel.grid(column=0, row=self.listings.index(shipClass)*2, sticky='w')
 
             # Generates frame for the below listings for each class
-            classFrame = Frame(listingsFrame)
+            classFrame = Frame(listingsFrame, bg=self.accentColor1)
             classFrame.grid(column=0, row=self.listings.index(shipClass)*2+1, sticky='w')
 
             for c, ship in enumerate(shipClass):
 
                 # Listing cards for each ship
-                shipFrame = Frame(classFrame, bg='#eee', padx=15, pady=5, relief='ridge')
+                shipFrame = Frame(classFrame, padx=15, pady=5, relief='ridge', bg=self.accentColor1)
                 shipFrame.grid(column=c, row=0, sticky='w')
 
                 # Name of the ship with some slight changes to the name string for aesthetic purposes
                 prefix, name = ship['name'].split(' ', 1)
-                shipName = Label(shipFrame, text=f'{prefix}\n{name}', font=('Inter', 10, 'bold'), padx=5, pady=5, anchor='w', justify='left')
+                shipName = Label(shipFrame, text=f'{prefix}\n{name}', font=('Inter', 10, 'bold'), padx=5, pady=5, anchor='w', justify='left', bg=self.accentColor1, fg=self.textColor)
                 shipName.grid(column=0, row=1, sticky='w')
 
                 # Image of the ship
@@ -95,30 +99,30 @@ class Shop:
                 shipImage.grid(column=0, row=0, sticky='w')
 
                 # Level of the ship
-                shipLevel = Label(shipFrame, text=f'Level {ship['level']}\n{self.levelNames[ship['level']]}', padx=5, pady=5, anchor='w', justify='left')
+                shipLevel = Label(shipFrame, text=f'Level {ship['level']}\n{self.levelNames[ship['level']]}', padx=5, pady=5, anchor='w', justify='left', bg=self.accentColor1, fg=self.textColor)
                 shipLevel.grid(column=0, row=2, sticky='w')
 
                 # Frame for the price which has two seperate labels for aethestic purposes
-                shipPriceFrame = Frame(shipFrame, padx=5, pady=5)
+                shipPriceFrame = Frame(shipFrame, padx=5, pady=5, bg=self.accentColor1)
                 shipPriceFrame.grid(column=0, row=3, sticky='w')
 
                 # Price of the ship
-                shipPrice = Label(shipPriceFrame, text=f'{200*ship['level']**3}')
+                shipPrice = Label(shipPriceFrame, text=f'{200*ship['level']**3}', bg=self.accentColor1, fg=self.textColor)
                 shipPrice.grid(column=0, row=0, sticky='w')
 
                 # Currency symbol
-                shipCurrency = Label(shipPriceFrame, text='P', font=('Inter', 11, 'bold'), fg='#00008B')
+                shipCurrency = Label(shipPriceFrame, text='P', font=('Inter', 11, 'bold'), fg='#006abb', bg=self.accentColor1)
                 shipCurrency.grid(column=1, row=0, sticky='w')
 
                 # Buy button
                 shipBuy = Button(
-                    shipFrame, text='Buy', bg='Blue', fg='White', font=('Inter', 11, 'bold'), padx=20, activebackground='Light blue', relief='ridge',
+                    shipFrame, text='Buy', bg='Blue', fg='White', font=('Inter', 11, 'bold'), padx=20, activebackground='Light blue', relief='flat',
                     command=lambda price=(200*ship['level']**3), shopShip=c, shopClass=i: self.confirm_purchase(price, shopShip, shopClass)
                 )
                 shipBuy.grid(column=0, row=4, sticky='ew')
 
                 # Space between next row
-                spaceRow = Label(shipFrame, text='', padx=5, pady=5)
+                spaceRow = Label(shipFrame, text='', padx=5, pady=5, bg=self.accentColor1, fg=self.textColor)
                 spaceRow.grid(column=0, row=5)
 
                 # Append button to 2D list for referencing

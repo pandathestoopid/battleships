@@ -9,9 +9,13 @@ shipsPlaced = False
 
 
 class Grid:
-    def __init__(self, size, root):
+    def __init__(self, size, root, colors):
         self.gridSize = size
         self.root = root
+        self.color = colors[0]
+        self.textColor = colors[1]
+        self.accentColor1 = colors[2]
+        self.accentColor2 = colors[3]
 
         # 2D list of buttons for later reference
         self.buttons = [[None for _ in range(size)] for _ in range(size)]
@@ -43,21 +47,21 @@ class Grid:
 
     # When the mouse hovers over a button
     def on_button_enter(self, event, row, col, size):
-        self.highlight_ship(row, col, 'gray', size)
+        self.highlight_ship(row, col, '#999', size)
 
     # When the mouse is not hovering over a button
     def on_button_leave(self, event, row, col, size):
-        self.highlight_ship(row, col, '#eee', size)
+        self.highlight_ship(row, col, self.accentColor1, size)
 
     # Generates the grid with its buttons
     def generate(self):
 
         # Makes a frame for the game
-        playerFrame = Frame(self.root, bg='white')
+        playerFrame = Frame(self.root, bg=self.color)
         playerFrame.grid(column=1, row=0, padx=10, pady=10)
 
         # Makes a frame for the grid
-        gridFrame = Frame(playerFrame, bg='white')
+        gridFrame = Frame(playerFrame, bg=self.color)
         gridFrame.grid(column=1, row=1, padx=5, pady=5)
 
         # Adds the buttons to the grid
@@ -66,7 +70,7 @@ class Grid:
         for row in range(self.gridSize):
             for col in range(self.gridSize):
                 square = Button(
-                    gridFrame, bg='#eee', activebackground='#ddd', width=3, height=1, relief='ridge', command=lambda r=letters[row], c=col+1: self.click(r, c))
+                    gridFrame, bg=self.accentColor1, activebackground=self.accentColor2, width=3, height=1, relief='ridge', command=lambda r=letters[row], c=col+1: self.click(r, c))
                 square.grid(column=col+1, row=row+1)
 
                 # Store buttons in 1 and 2D list
@@ -77,13 +81,13 @@ class Grid:
         # Labels for the top row (numbers)
 
         for num in range(self.gridSize):
-            numLabel = Label(gridFrame, text=num+1, bg='white', font=('Courier New', 10))
+            numLabel = Label(gridFrame, text=num+1, bg=self.color, fg=self.textColor, font=('Courier New', 10))
             numLabel.grid(column=num+1, row=0)
 
         # Labels for the left column (letters)
 
         for letter in letters:
-            letterLabel = Label(gridFrame, text=letter, bg='white', padx=8, font=('Courier New', 10))
+            letterLabel = Label(gridFrame, text=letter, bg=self.color, fg=self.textColor, padx=8, font=('Courier New', 10))
             letterLabel.grid(column=0, row=letters.index(letter)+1)
 
     # Begins the ship placement process
