@@ -52,19 +52,19 @@ class Shop:
         # Title, framed with three labels for aesthetic purposes
         titleFrame = Frame(self.shopFrame, bg=self.accentColor1)
         titleFrame.grid(column=0, row=0, padx=10, pady=10, sticky='w')
-        titleLabel1 = Label(titleFrame, text=f'Shop for', font=('Inter', 12, 'bold'), bg=self.accentColor1, fg=self.textColor)
+        titleLabel1 = Label(titleFrame, text=f'Shop for', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel1.grid(column=0, row=0, sticky='w')
-        titleLabel2 = Label(titleFrame, text=f'{self.country}', font=('Inter', 12, 'bold'), bg=warships.countryColors[self.country], fg='white')
+        titleLabel2 = Label(titleFrame, text=f'{self.country}', font=('Inter', 20, 'bold'), bg=warships.countryColors[self.country], fg='white')
         titleLabel2.grid(column=1, row=0, sticky='w')
-        titleLabel3 = Label(titleFrame, text=f'ships', font=('Inter', 12, 'bold'), bg=self.accentColor1, fg=self.textColor)
+        titleLabel3 = Label(titleFrame, text=f'ships', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel3.grid(column=2, row=0, sticky='w')
 
         # Points available counter, framed with two labels for aesthetic purposes
         pointsFrame = Frame(self.shopFrame, bg=self.accentColor1)
         pointsFrame.grid(column=0, row=1, padx=10, pady=10, sticky='w')
-        self.pointsAvailable = Label(pointsFrame, text=f'Points Available:  {points}', font=('Inter', 11, 'bold'), bg=self.accentColor1, fg=self.textColor)
+        self.pointsAvailable = Label(pointsFrame, text=f'Points Available:  {points}', font=('Inter', 14, 'bold'), bg=self.accentColor1, fg=self.textColor)
         self.pointsAvailable.grid(column=0, row=1, sticky='w')
-        pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 11, 'bold'), fg='#006abb', bg=self.accentColor1)
+        pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 14, 'bold'), fg='#006abb', bg=self.accentColor1)
         pointsCurrency.grid(column=1, row=1, sticky='w')
 
         listingsFrame = Frame(self.shopFrame, bg=self.accentColor1)
@@ -77,7 +77,7 @@ class Shop:
         for i, shipClass in enumerate(self.listings):
 
             # Generates labels for the ship classes on sale
-            classLabel = Label(listingsFrame, text=self.classNames[i].upper(), font=('Inter', 10, 'bold'), padx=5, pady=10, bg=self.accentColor1, fg=self.textColor, anchor='w')
+            classLabel = Label(listingsFrame, text=f'{self.classNames[i].upper()} \u2198', font=('Inter', 12, 'bold'), padx=5, pady=10, bg=self.accentColor1, fg=self.textColor, anchor='w')
             classLabel.grid(column=0, row=self.listings.index(shipClass)*2, sticky='w')
 
             # Generates frame for the below listings for each class
@@ -87,7 +87,7 @@ class Shop:
             for c, ship in enumerate(shipClass):
 
                 # Listing cards for each ship
-                shipFrame = Frame(classFrame, padx=15, pady=5, relief='ridge', bg=self.accentColor1)
+                shipFrame = Frame(classFrame, padx=15, pady=5, relief='flat', bg=self.accentColor1, bd=0)
                 shipFrame.grid(column=c, row=0, sticky='w')
 
                 # Name of the ship with some slight changes to the name string for aesthetic purposes
@@ -98,7 +98,7 @@ class Shop:
                 # Image of the ship
                 img = Image.open(f'assets/ships/{ship['name']}.jpg')
                 tkImg = ImageTk.PhotoImage(img)
-                shipImage = Label(shipFrame, image=tkImg, padx=2, pady=5)
+                shipImage = Label(shipFrame, image=tkImg, padx=1, pady=1)
                 shipImage.image = tkImg
                 shipImage.grid(column=0, row=0, sticky='w')
 

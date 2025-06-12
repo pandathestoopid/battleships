@@ -73,7 +73,7 @@ washington = {
 }
 
 northCarolina = {
-    'name': 'USS North Carolina',
+    'name': 'USS Alabama',
     'nation': 'United States',
     'level': 1,
     'type': 'Battleship'

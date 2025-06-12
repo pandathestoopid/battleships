@@ -57,9 +57,11 @@ shopObj = shopFile.Shop(root = root, country = warships.countries[0], colors=col
 class MainMenu:
     def open_menu(self):
 
+        print('opening menu')
+
         # Overall frame for the main menu
         self.menuFrame = Frame(root, bg=color, padx=525, pady=100)
-        self.menuFrame.grid()
+        self.menuFrame.grid(column=0, row=0)
 
         # Label for game title (will look better later)
         titleLabel = Label(self.menuFrame, text='Battleships', font=('Inter', 50, 'bold'), padx=50, pady=100, fg='#006abb', bg=color, anchor='center', justify='center')
@@ -100,9 +102,15 @@ class MainMenu:
         self.menuFrame.destroy()
         shopObj.open()
 
-        backButton = Button(root, text='<-', bg=color, fg=textColor, padx=20, pady=20,
-                            command=main.open_menu)
-        backButton.grid(column=0, row=0, padx=10, pady=10, sticky='n')
+        self.backButton = Button(root, text='\u2190', font=('Inter', 20, 'bold'), bg=accentColor1, fg=textColor, padx=10, pady=10, relief='flat',
+                            activebackground=accentColor2, activeforeground=textColor, bd=0, command=self.reopen_menu)
+        self.backButton.grid(column=0, row=0, padx=10, pady=10, sticky='n')
+
+    def reopen_menu(self):
+        shopObj.shopFrame.destroy()
+        self.backButton.destroy()
+        self.open_menu()
+
 
 main = MainMenu()
 main.open_menu()
