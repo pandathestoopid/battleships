@@ -4,7 +4,7 @@ import os
 import time
 
 import grid
-import shop
+import shop as shopFile
 import warships
 
 
@@ -47,26 +47,31 @@ defaultFont = font.nametofont('TkDefaultFont')
 defaultFont.configure(family='Inter', size=10)
 
 
+# Load classes
+
+shopObj = shopFile.Shop(root = root, country = warships.countries[0], colors=colors)
+
+
 # Main menu window
 
 class MainMenu:
-    def __init__(self):
+    def open_menu(self):
 
         # Overall frame for the main menu
-        menuFrame = Frame(root, bg=color, padx=0, pady=100)
-        menuFrame.pack(side=TOP)
+        self.menuFrame = Frame(root, bg=color, padx=525, pady=100)
+        self.menuFrame.grid()
 
         # Label for game title (will look better later)
-        titleLabel = Label(menuFrame, text='Battleships', font=('Inter', 50, 'bold'), padx=50, pady=100, fg='#006abb', bg=color, anchor='center', justify='center')
+        titleLabel = Label(self.menuFrame, text='Battleships', font=('Inter', 50, 'bold'), padx=50, pady=100, fg='#006abb', bg=color, anchor='center', justify='center')
         titleLabel.grid(column=0, row=0, sticky='nsew')
 
         # Play button
-        self.playButton = Button(menuFrame, text='>>   Embark   <<', font=('Inter', 20, 'bold'), padx=5, pady=20,
+        self.playButton = Button(self.menuFrame, text='>>   Embark   <<', font=('Inter', 20, 'bold'), padx=5, pady=20,
                             fg='white', bg='#006abb', relief='groove', command=self.animate_play)
         self.playButton.grid(column=0, row=1, sticky='nsew')
 
         # Frame for dock and shop button
-        shipCustomizeFrame = Frame(menuFrame, bg=color, padx=0, pady=10)
+        shipCustomizeFrame = Frame(self.menuFrame, bg=color, padx=0, pady=10)
         shipCustomizeFrame.grid(column=0, row=2, sticky='ew')
 
         # Dock button
@@ -74,11 +79,11 @@ class MainMenu:
         dockButton.grid(column=0, row=0, sticky='ew')
 
         # Shop button
-        shopButton = Button(shipCustomizeFrame, text='Shop', font=('Inter', 20), padx=78, pady=20, fg='white', bg='#006abb', relief='groove')
+        shopButton = Button(shipCustomizeFrame, text='Shop', font=('Inter', 20), padx=78, pady=20, fg='white', bg='#006abb', relief='groove', command=self.open_shop)
         shopButton.grid(column=1, row=0, sticky='ew')
 
         # Exit button
-        self.exitButton = Button(menuFrame, text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
+        self.exitButton = Button(self.menuFrame, text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
                             fg='white', bg='#006abb',activebackground='#db4040', activeforeground='white', relief='groove')
         self.exitButton.grid(column=0, row=3, sticky='ew')
 
@@ -87,13 +92,20 @@ class MainMenu:
 
 
         # Work in progress
-        for space in range(25):
+        for space in range(-25):
             spaces = ' '*space
             self.playButton.config(text=f'>>{spaces}Embark{spaces}<<')
-            time.sleep(0.1)
-            print('i\'m animating')
+
+    def open_shop(self):
+        self.menuFrame.destroy()
+        shopObj.open()
+
+        backButton = Button(root, text='<-', bg=color, fg=textColor, padx=20, pady=20,
+                            command=main.open_menu)
+        backButton.grid(column=0, row=0, padx=10, pady=10, sticky='n')
 
 main = MainMenu()
+main.open_menu()
 
 # Grid routine, going to put into something else soon
 
@@ -101,7 +113,6 @@ main = MainMenu()
 # userGrid.generate()
 # userGrid.start_ship_placement()
 
-# shop = shop.Shop(root = root, country = warships.countries[0], colors=colors)
-# shop.open()
+
 
 root.mainloop()

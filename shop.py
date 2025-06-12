@@ -4,6 +4,7 @@ from PIL import ImageTk, Image
 from functools import partial
 
 import warships
+# from main import MainMenu as main
 
 points = 10000
 
@@ -41,12 +42,15 @@ class Shop:
     # Opens the shop window
     def open(self):
 
+        # Back to menu button
+
+
         # Shop frame
-        shopFrame = Frame(self.root, bg=self.accentColor1)
-        shopFrame.grid(column=1, row=0, padx=10, pady=10)
+        self.shopFrame = Frame(self.root, bg=self.accentColor1)
+        self.shopFrame.grid(column=1, row=0, padx=10, pady=10)
 
         # Title, framed with three labels for aesthetic purposes
-        titleFrame = Frame(shopFrame, bg=self.accentColor1)
+        titleFrame = Frame(self.shopFrame, bg=self.accentColor1)
         titleFrame.grid(column=0, row=0, padx=10, pady=10, sticky='w')
         titleLabel1 = Label(titleFrame, text=f'Shop for', font=('Inter', 12, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel1.grid(column=0, row=0, sticky='w')
@@ -56,14 +60,14 @@ class Shop:
         titleLabel3.grid(column=2, row=0, sticky='w')
 
         # Points available counter, framed with two labels for aesthetic purposes
-        pointsFrame = Frame(shopFrame, bg=self.accentColor1)
+        pointsFrame = Frame(self.shopFrame, bg=self.accentColor1)
         pointsFrame.grid(column=0, row=1, padx=10, pady=10, sticky='w')
         self.pointsAvailable = Label(pointsFrame, text=f'Points Available:  {points}', font=('Inter', 11, 'bold'), bg=self.accentColor1, fg=self.textColor)
         self.pointsAvailable.grid(column=0, row=1, sticky='w')
         pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 11, 'bold'), fg='#006abb', bg=self.accentColor1)
         pointsCurrency.grid(column=1, row=1, sticky='w')
 
-        listingsFrame = Frame(shopFrame, bg=self.accentColor1)
+        listingsFrame = Frame(self.shopFrame, bg=self.accentColor1)
         listingsFrame.grid(column=0, row=2, padx=10, pady=10, sticky='w')
 
         # Dictionary of buttons for the shop for referencing
@@ -138,9 +142,14 @@ class Shop:
     def buy(self, price, shopShip, shopClass):
         global points
         points -= price
-        self.shopButtons[shopClass][shopShip].config(text='Owned', bg='Green', activebackground='#88e788', activeforeground='White', command=partial(self.equip_ship, shopShip, shopClass))
+        self.shopButtons[shopClass][shopShip].config(text='Owned', bg='Green', activebackground='#88e788', activeforeground='White', relief='flat',
+                                                     command=partial(self.equip_ship, shopShip, shopClass))
         self.pointsAvailable.config(text=f'Points Available:  {points}')
         print(points)
 
     def equip_ship(self, shopShip, shopClass):
-        self.shopButtons[shopClass][shopShip].config(text='Equipped', bg='Green', fg='White', command=partial(self.equip_ship, shopShip, shopClass))
+        self.shopButtons[shopClass][shopShip].config(text='Equipped', bg='Green', fg='White', relief='flat',command=partial(self.equip_ship, shopShip, shopClass))
+
+
+
+
