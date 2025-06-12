@@ -1,10 +1,9 @@
-from operator import index
 from tkinter import *
 from PIL import ImageTk, Image
 from functools import partial
 
 import warships
-# from main import MainMenu as main
+import drydock
 
 points = 10000
 
@@ -42,9 +41,6 @@ class Shop:
     # Opens the shop window
     def open(self):
 
-        # Back to menu button
-
-
         # Shop frame
         self.shopFrame = Frame(self.root, bg=self.accentColor1)
         self.shopFrame.grid(column=1, row=0, padx=10, pady=10)
@@ -70,7 +66,7 @@ class Shop:
         listingsFrame = Frame(self.shopFrame, bg=self.accentColor1)
         listingsFrame.grid(column=0, row=2, padx=10, pady=10, sticky='w')
 
-        # Dictionary of buttons for the shop for referencing
+        # 2D list of buttons for the shop for referencing
 
         self.shopButtons = [[None for _ in range(len(self.classNames) * len(self.levelNames))] for _ in range(len(self.classNames) * len(self.levelNames))]
 
@@ -120,7 +116,7 @@ class Shop:
 
                 # Buy button
                 shipBuy = Button(
-                    shipFrame, text='Buy', bg='Blue', fg='White', font=('Inter', 11, 'bold'), padx=20, activebackground='Light blue', relief='flat',
+                    shipFrame, text='Buy', bg=warships.countryColors[self.country], fg='White', font=('Inter', 11, 'bold'), padx=20, activebackground='Light blue', relief='flat',
                     command=lambda price=(200*ship['level']**3), shopShip=c, shopClass=i: self.confirm_purchase(price, shopShip, shopClass)
                 )
                 shipBuy.grid(column=0, row=4, sticky='ew')
@@ -140,16 +136,43 @@ class Shop:
         pass
 
     def buy(self, price, shopShip, shopClass):
+
+        # Purchases ship
         global points
         points -= price
         self.shopButtons[shopClass][shopShip].config(text='Owned', bg='Green', activebackground='#88e788', activeforeground='White', relief='flat',
                                                      command=partial(self.equip_ship, shopShip, shopClass))
+
+        # Updates points available counter
         self.pointsAvailable.config(text=f'Points Available:  {points}')
-        print(points)
+
+        # Adds ship to owned ships list in drydock.py
+        drydock.ownedShips.append(self.listings[shopClass][shopShip])
 
     def equip_ship(self, shopShip, shopClass):
-        self.shopButtons[shopClass][shopShip].config(text='Equipped', bg='Green', fg='White', relief='flat',command=partial(self.equip_ship, shopShip, shopClass))
 
+        # Removes other equipped ships of the same class
+        drydock.equippedShips = [ship for ship in drydock.equippedShips if self.listings[shopClass].index(ship) != shopShip]
 
+        # Equips ship
+        self.shopButtons[shopClass][shopShip].config(text='Equipped', bg='Green', fg='White', relief='ridge', activebackground='Green',
+                                                     command=self.strawman)
 
+        # Adds ship to equipped ships list in drydock.py
+        drydock.equippedShips.append(self.listings[shopClass][shopShip])
+        print(drydock.equippedShips)
 
+    # Check if ships are already owned or equipped
+    def check_ships(self):
+        for i, shipClass in enumerate(self.listings):
+            for c, ship in enumerate(shipClass):
+                if ship in drydock.equippedShips:
+                    self.shopButtons[i][c].config(text='Equipped', bg='Green', fg='White', relief='ridge', activebackground='Green',
+                                              activeforeground='White', command=self.strawman)
+                elif ship in drydock.ownedShips:
+                    self.shopButtons[i][c].config(text='Owned', bg='Green', fg='White', relief='flat',
+                                                  activebackground='Green', command=partial(self.equip_ship, c, i))
+
+    # Button command for soft-disabled ones
+    def strawman(self):
+        pass
