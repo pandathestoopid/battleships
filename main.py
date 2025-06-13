@@ -1,3 +1,4 @@
+from functools import partial
 from tkinter import *
 from tkinter import font
 import os
@@ -68,7 +69,7 @@ class MainMenu:
 
         # Play button
         self.playButton = Button(self.menuFrame, text='>>   Embark   <<', font=('Inter', 20, 'bold'), padx=5, pady=20,
-                            fg='white', bg='#006abb', relief='groove', command=self.animate_play)
+                                 fg='white', bg='#006abb', relief='groove', command=self.opening_grid) # This passes the actual command to a later function so that the button is defined
         self.playButton.grid(column=0, row=1, sticky='nsew')
 
         # Frame for dock and shop button
@@ -85,20 +86,16 @@ class MainMenu:
 
         # Exit button
         self.exitButton = Button(self.menuFrame, text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
-                            fg='white', bg='#006abb',activebackground='#db4040', activeforeground='white', relief='groove', command=self.close_game)
+                                 fg='white', bg='#006abb', activebackground='#db4040', activeforeground='white', relief='groove', command=self.closing_game)
         self.exitButton.grid(column=0, row=3, sticky='ew')
 
-        # Checker for closing the game, flipped if abort button is pressed
-        self.close = True
+        # Checker for aborting an animated button, flipped if abort button is pressed
+        self.abort = False
 
 
-    def animate_play(self):
-
-        # Work in progress
-        for space in range(-25):
-            spaces = ' '*space
-
-        self.playButton.config(text=f'>>{spaces}Embark{spaces}<<')
+    # Opens grid
+    def opening_grid(self):
+        self.button_animation(15, 0, 0, self.playButton, 'self.open_grid', 'Embarking', '>>', '<<', -1)
 
     # Opens shop
     def open_shop(self):
@@ -121,53 +118,46 @@ class MainMenu:
 
     # Aborts game close if the close button is pressed during the animation
     def abort_game_close(self):
-        self.close = False
+        self.abort = True
         self.exitButton.config(text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
-                            fg='white', bg='#006abb',activebackground='#db4040', activeforeground='white', relief='groove', command=self.close_game)
-
-    # Actually closes game
-    def destroy_game(self):
-        if self.close:
-            root.destroy()
+                               fg='white', bg='#006abb', activebackground='#db4040', activeforeground='white', relief='groove', command=self.closing_game)
 
     # Prepares to close the game
-    def close_game(self):
+    def closing_game(self):
 
-        self.close = True # Sets checker to true again
-        self.closePasses = 0 # Defines passes
-        self.bigClosePasses = 0 # Defines big passes
+        self.abort = False # Sets checker to true again
 
         # Sets exit button to an abort button
         self.exitButton.config(text='<<  Abort  >>', bg='#db4040', activebackground='#db4040', activeforeground='white',
                                relief='sunken', command=self.abort_game_close)
 
         # Starts the closing button animation
-        self.close_game_animation()
+        self.button_animation(0, 0, 18, self.exitButton, 'root.destroy', 'Abort', '<<', '>>', 1)
 
-    # Animation for closing the game, this can be made more efficient but I'm too tired to do that rn
-    def close_game_animation(self):
+    # Animation for any button that has arrows
+    def button_animation(self, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection):
 
         # Adds a space to the abort button string
-        spaces = ' ' * self.closePasses
+        spaces = ' ' * passes
 
-        # Checks if the game should be closed or closing process should be aborted
-        if self.bigClosePasses == 5 and self.close: # Number of cycles before the game is closed
-            self.destroy_game()
+        # Checks if the end command should be executed or aborted
+        if bigPasses == 5 and not self.abort: # Number of cycles before the end command is executed
+            eval(f'{endCommand}()') # Evaluates the end command of the button animation
             return None
-        elif not self.close: # Stops the function if the abort button is pressed
+        elif self.abort: # Stops the function if the abort button is pressed
             return None
 
         # Updates the abort button string
-        self.exitButton.config(text=f'<<{spaces}  Abort  {spaces}>>')
-
-        # Animation that re-runs the function every 10 ms
-        self.exitButton.after(40, self.close_game_animation)
+        button.config(text=f'{animateeLeft}{spaces}  {btnText}  {spaces}{animateeRight}')
 
         # Updates the number of passes
-        self.closePasses += 1
-        if self.closePasses == 18: # Number of passes before the number of spaces are reset
-            self.bigClosePasses += 1
-            self.closePasses = 0
+        passes += animationDirection # Positive 1 moves the arrows away from the text, negative 1 moves them towards the text
+        if passes == maxPasses: # Number of passes before the number of spaces are reset
+            bigPasses += 1
+            passes -= (maxPasses * animationDirection) # Resets passes to original value
+
+        # Animation that re-runs the function with all the same parameters every 10 ms
+        self.exitButton.after(40, partial(self.button_animation, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection))
 
 
 
