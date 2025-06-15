@@ -149,10 +149,16 @@ class Shop:
         # Adds ship to owned ships list in drydock.py
         drydock.ownedShips.append(self.listings[shopClass][shopShip])
 
+    # Updates the button with the desired text and color and stuff based on what action was taken
+    def update_button(self, shopClass, shopShip, msg, color, clickColor, relief):
+        self.shopButtons[shopClass][shopShip].config(text=msg, bg=color, activebackground=clickColor, activeforeground='White', relief=relief,)
+
     def equip_ship(self, shopShip, shopClass):
 
         # Removes other equipped ships of the same class
-        drydock.equippedShips = [ship for ship in drydock.equippedShips if self.listings[shopClass].index(ship) != shopShip]
+        # drydock.equippedShips = [ship for ship in drydock.equippedShips if self.listings[shopClass].index(ship) != shopShip]
+
+
 
         # Equips ship
         self.shopButtons[shopClass][shopShip].config(text='Equipped', bg='Green', fg='White', relief='ridge', activebackground='Green',
@@ -160,7 +166,12 @@ class Shop:
 
         # Adds ship to equipped ships list in drydock.py
         drydock.equippedShips.append(self.listings[shopClass][shopShip])
-        print(drydock.equippedShips)
+        # print(drydock.equippedShips)
+        for ship in drydock.equippedShips:
+            if self.listings[shopClass].index(ship) != shopShip:
+                drydock.equippedShips.remove(ship)
+
+            print(f'Equipped ship: {self.listings[shopClass].index(ship)}, Bought ship: {shopShip}')
 
     # Check if ships are already owned or equipped
     def check_ships(self):
