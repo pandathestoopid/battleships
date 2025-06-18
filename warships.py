@@ -395,7 +395,6 @@ country = 'United States'
 
 
 
-
 # Localized test routine
 
 carrier = Ship(carriers, caLevel, country)

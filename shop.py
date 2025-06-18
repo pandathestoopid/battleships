@@ -1,3 +1,4 @@
+import time
 from tkinter import *
 from PIL import ImageTk, Image
 from functools import partial
@@ -116,7 +117,7 @@ class Shop:
 
                 # Buy button
                 shipBuy = Button(
-                    shipFrame, text='Buy', bg=warships.countryColors[self.country], fg='White', font=('Inter', 11, 'bold'), padx=20, activebackground='Light blue', relief='flat',
+                    shipFrame, text='Buy', bg=warships.countryColors[self.country], fg='White', font=('Inter', 11, 'bold'), padx=20, relief='ridge',
                     command=lambda price=(200*ship['level']**3), shopShip=c, shopClass=i: self.confirm_purchase(price, shopShip, shopClass)
                 )
                 shipBuy.grid(column=0, row=4, sticky='ew')
@@ -130,9 +131,9 @@ class Shop:
 
     def confirm_purchase(self, price, shopShip, shopClass):
         if points < price:
-            self.shopButtons[shopClass][shopShip].config(text='Declined', bg='Red', activebackground='#ff6c70', activeforeground='White')
+            self.update_button(shopClass, shopShip, 'Declined', '#db4040', 'sunken', self.strawman)
         else:
-            self.shopButtons[shopClass][shopShip].config(text='Confirm', command=partial(self.buy, price, shopShip, shopClass))
+            self.update_button(shopClass, shopShip, 'Confirm', warships.countryColors[self.country], 'sunken', partial(self.buy, price, shopShip, shopClass))
         pass
 
     def buy(self, price, shopShip, shopClass):
@@ -140,8 +141,7 @@ class Shop:
         # Purchases ship
         global points
         points -= price
-        self.shopButtons[shopClass][shopShip].config(text='Owned', bg='Green', activebackground='#88e788', activeforeground='White', relief='flat',
-                                                     command=partial(self.equip_ship, shopShip, shopClass))
+        self.update_button(shopClass, shopShip, 'Owned', 'Green', 'flat', partial(self.equip_ship, shopShip, shopClass))
 
         # Updates points available counter
         self.pointsAvailable.config(text=f'Points Available:  {points}')
@@ -150,19 +150,16 @@ class Shop:
         drydock.ownedShips.append(self.listings[shopClass][shopShip])
 
     # Updates the button with the desired text and color and stuff based on what action was taken
-    def update_button(self, shopClass, shopShip, msg, color, clickColor, relief):
-        self.shopButtons[shopClass][shopShip].config(text=msg, bg=color, activebackground=clickColor, activeforeground='White', relief=relief,)
+    def update_button(self, shopClass, shopShip, msg, color, relief, command):
+        self.shopButtons[shopClass][shopShip].config(text=msg, bg=color, fg='White', activeforeground='White', relief=relief, command=command)
 
     def equip_ship(self, shopShip, shopClass):
 
         # Removes other equipped ships of the same class
         # drydock.equippedShips = [ship for ship in drydock.equippedShips if self.listings[shopClass].index(ship) != shopShip]
 
-
-
         # Equips ship
-        self.shopButtons[shopClass][shopShip].config(text='Equipped', bg='Green', fg='White', relief='ridge', activebackground='Green',
-                                                     command=self.strawman)
+        self.update_button(shopClass, shopShip, 'Equipped', 'Green', 'ridge', self.strawman)
 
         # Adds ship to equipped ships list in drydock.py
         drydock.equippedShips.append(self.listings[shopClass][shopShip])

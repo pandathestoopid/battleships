@@ -34,7 +34,7 @@ colors = list((color, textColor, accentColor1, accentColor2))
 # Window specs
 
 root = Tk()
-root.geometry('1600x900')
+root.geometry('1920x1080')
 root.title('Battleships')
 root.configure(bg=color, border=25)
 root.resizable(False, False)
@@ -46,7 +46,6 @@ font.Font(root=root, name='Inter', size=10)
 
 defaultFont = font.nametofont('TkDefaultFont')
 defaultFont.configure(family='Inter', size=10)
-
 
 # Load classes
 
@@ -160,7 +159,6 @@ class MainMenu:
         self.exitButton.after(40, partial(self.button_animation, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection))
 
 
-
 main = MainMenu()
 main.open_menu()
 
@@ -170,7 +168,6 @@ root.grid_rowconfigure(0, weight=1)
 # userGrid = grid.Grid(10, root = root, colors=colors)
 # userGrid.generate()
 # userGrid.start_ship_placement()
-
 
 
 root.mainloop()
