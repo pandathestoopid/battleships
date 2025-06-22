@@ -8,6 +8,9 @@ import drydock
 
 points = 10000
 
+
+
+
 class Shop:
     def __init__(self, root, country, colors):
 
@@ -38,6 +41,40 @@ class Shop:
         self.listings = [self.caListings, self.baListings, self.deListings, self.subListings, self.frListings]
         self.classNames = ['Carriers', 'Battleships', 'Destroyers', 'Submarines', 'Frigates']
         self.levelNames = ['Basic', 'Standard', 'Enhanced', 'Superior']
+
+        # List of dictionaries for button states (for easier customization), commands cannot be listed here due to situational requirements
+
+        buy = { # The standard button showing default, not-yet-interacted-with elements
+            'text': 'Buy',
+            'color': warships.countryColors[self.country],
+            'relief': 'flat'
+        }
+
+        declined = {
+            'text': 'Declined',
+            'color': ''
+        }
+
+        confirm = {
+            'text': 'Confirm',
+            'color': warships.countryColors[self.country],
+            'relief': 'flat'
+        }
+
+        owned = {
+            'text': 'Owned',
+            'color': '#db4040',
+            'relief': 'flat'
+        }
+
+        equipped = {
+            'text': 'Equipped',
+            'color': '#db4040',
+            'relief': 'sunken'
+        }
+
+        self.buttonStates = [buy, confirm, owned, equipped]
+
 
     # Opens the shop window
     def open(self):
@@ -77,7 +114,7 @@ class Shop:
             classLabel = Label(listingsFrame, text=f'{self.classNames[i].upper()} \u2198', font=('Inter', 12, 'bold'), padx=5, pady=10, bg=self.accentColor1, fg=self.textColor, anchor='w')
             classLabel.grid(column=0, row=self.listings.index(shipClass)*2, sticky='w')
 
-            # Generates frame for the below listings for each class
+            # Generates a frame for the below listings for each class
             classFrame = Frame(listingsFrame, bg=self.accentColor1)
             classFrame.grid(column=0, row=self.listings.index(shipClass)*2+1, sticky='w')
 
@@ -103,7 +140,7 @@ class Shop:
                 shipLevel = Label(shipFrame, text=f'Level {ship['level']}\n{self.levelNames[ship['level']]}', padx=5, pady=5, anchor='w', justify='left', bg=self.accentColor1, fg=self.textColor)
                 shipLevel.grid(column=0, row=2, sticky='w')
 
-                # Frame for the price which has two seperate labels for aethestic purposes
+                # Frame for the price which has two separate labels for aesthetic purposes
                 shipPriceFrame = Frame(shipFrame, padx=5, pady=5, bg=self.accentColor1)
                 shipPriceFrame.grid(column=0, row=3, sticky='w')
 
@@ -138,7 +175,7 @@ class Shop:
 
     def buy(self, price, shopShip, shopClass):
 
-        # Purchases ship
+        # Purchase ship
         global points
         points -= price
         self.update_button(shopClass, shopShip, 'Owned', 'Green', 'flat', partial(self.equip_ship, shopShip, shopClass))
@@ -155,18 +192,21 @@ class Shop:
 
     def equip_ship(self, shopShip, shopClass):
 
-        # Removes other equipped ships of the same class
-        # drydock.equippedShips = [ship for ship in drydock.equippedShips if self.listings[shopClass].index(ship) != shopShip]
-
         # Equips ship
         self.update_button(shopClass, shopShip, 'Equipped', 'Green', 'ridge', self.strawman)
 
         # Adds ship to equipped ships list in drydock.py
         drydock.equippedShips.append(self.listings[shopClass][shopShip])
-        # print(drydock.equippedShips)
+
+        # Removes the other, unequipped ships
         for ship in drydock.equippedShips:
             if self.listings[shopClass].index(ship) != shopShip:
                 drydock.equippedShips.remove(ship)
+
+
+                # Updates the respective buttons
+                # I need the shopShip values of the unequipped ones
+                self.update_button(shopClass, )
 
             print(f'Equipped ship: {self.listings[shopClass].index(ship)}, Bought ship: {shopShip}')
 
