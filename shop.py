@@ -8,9 +8,7 @@ import drydock
 
 points = 10000
 
-
-
-
+# The shop class
 class Shop:
     def __init__(self, root, country, colors):
 
@@ -52,7 +50,7 @@ class Shop:
 
         declined = {
             'text': 'Declined',
-            'color': ''
+            'color': '#db4040'
         }
 
         confirm = {
@@ -63,17 +61,17 @@ class Shop:
 
         owned = {
             'text': 'Owned',
-            'color': '#db4040',
+            'color': 'Green',
             'relief': 'flat'
         }
 
         equipped = {
             'text': 'Equipped',
-            'color': '#db4040',
+            'color': 'Green',
             'relief': 'sunken'
         }
 
-        self.buttonStates = [buy, confirm, owned, equipped]
+        self.buttonStates = [buy, declined, confirm, owned, equipped]
 
 
     # Opens the shop window
@@ -108,21 +106,21 @@ class Shop:
 
         self.shopButtons = [[None for _ in range(len(self.classNames) * len(self.levelNames))] for _ in range(len(self.classNames) * len(self.levelNames))]
 
-        for i, shipClass in enumerate(self.listings):
+        for c, shipClass in enumerate(self.listings):
 
             # Generates labels for the ship classes on sale
-            classLabel = Label(listingsFrame, text=f'{self.classNames[i].upper()} \u2198', font=('Inter', 12, 'bold'), padx=5, pady=10, bg=self.accentColor1, fg=self.textColor, anchor='w')
+            classLabel = Label(listingsFrame, text=f'{self.classNames[c].upper()} \u2198', font=('Inter', 12, 'bold'), padx=5, pady=10, bg=self.accentColor1, fg=self.textColor, anchor='w')
             classLabel.grid(column=0, row=self.listings.index(shipClass)*2, sticky='w')
 
             # Generates a frame for the below listings for each class
             classFrame = Frame(listingsFrame, bg=self.accentColor1)
             classFrame.grid(column=0, row=self.listings.index(shipClass)*2+1, sticky='w')
 
-            for c, ship in enumerate(shipClass):
+            for s, ship in enumerate(shipClass):
 
                 # Listing cards for each ship
                 shipFrame = Frame(classFrame, padx=15, pady=5, relief='flat', bg=self.accentColor1, bd=0)
-                shipFrame.grid(column=c, row=0, sticky='w')
+                shipFrame.grid(column=s, row=0, sticky='w')
 
                 # Name of the ship with some slight changes to the name string for aesthetic purposes
                 prefix, name = ship['name'].split(' ', 1)
@@ -154,8 +152,8 @@ class Shop:
 
                 # Buy button
                 shipBuy = Button(
-                    shipFrame, text='Buy', bg=warships.countryColors[self.country], fg='White', font=('Inter', 11, 'bold'), padx=20, relief='ridge',
-                    command=lambda price=(200*ship['level']**3), shopShip=c, shopClass=i: self.confirm_purchase(price, shopShip, shopClass)
+                    shipFrame, text='Buy', bg=warships.countryColors[self.country], fg='White', font=('Inter', 11, 'bold'), padx=20, relief='flat',
+                    command=lambda price=(200*ship['level']**3), shopShip=s, shopClass=c: self.confirm_purchase(price, shopShip, shopClass)
                 )
                 shipBuy.grid(column=0, row=4, sticky='ew')
 
@@ -164,7 +162,7 @@ class Shop:
                 spaceRow.grid(column=0, row=5)
 
                 # Append button to 2D list for referencing
-                self.shopButtons[i][c] = shipBuy
+                self.shopButtons[c][s] = shipBuy
 
     def confirm_purchase(self, price, shopShip, shopClass):
         if points < price:
@@ -192,34 +190,36 @@ class Shop:
 
     def equip_ship(self, shopShip, shopClass):
 
-        # Equips ship
+        print(f'Ship: {shopShip}, Class: {shopClass}')
+
+        # Gets the previously equipped ship
+        prevShip = drydock.equippedShips[shopClass]
+        if prevShip is not None and prevShip != shopShip:
+            self.update_button(shopClass, prevShip, 'Owned', 'Green', 'flat', partial(self.equip_ship, prevShip, shopClass))
+
+        print(f'Button removed - Class: {shopClass}, Ship: {drydock.equippedShips[shopClass]} - With command to equip ship {shopShip} and class {shopClass}')
+
+        # Adds ship to the equipped ships list in drydock.py
+        drydock.equippedShips[shopClass] = shopShip
+
+        print(f'Equipped ship {shopShip}, Class: {shopClass}')
+
+        # Button reflects new ship
         self.update_button(shopClass, shopShip, 'Equipped', 'Green', 'ridge', self.strawman)
 
-        # Adds ship to equipped ships list in drydock.py
-        drydock.equippedShips.append(self.listings[shopClass][shopShip])
+        print(drydock.equippedShips)
 
-        # Removes the other, unequipped ships
-        for ship in drydock.equippedShips:
-            if self.listings[shopClass].index(ship) != shopShip:
-                drydock.equippedShips.remove(ship)
-
-
-                # Updates the respective buttons
-                # I need the shopShip values of the unequipped ones
-                self.update_button(shopClass, )
-
-            print(f'Equipped ship: {self.listings[shopClass].index(ship)}, Bought ship: {shopShip}')
 
     # Check if ships are already owned or equipped
     def check_ships(self):
-        for i, shipClass in enumerate(self.listings):
-            for c, ship in enumerate(shipClass):
-                if ship in drydock.equippedShips:
-                    self.shopButtons[i][c].config(text='Equipped', bg='Green', fg='White', relief='ridge', activebackground='Green',
-                                              activeforeground='White', command=self.strawman)
+        for c, shipClass in enumerate(self.listings):
+            for s, ship in enumerate(shipClass):
+                if s == drydock.equippedShips[c]:
+                    self.shopButtons[c][s].config(text='Equipped', bg='Green', fg='White', relief='ridge', activebackground='Green',
+                                                  activeforeground='White', command=self.strawman)
                 elif ship in drydock.ownedShips:
-                    self.shopButtons[i][c].config(text='Owned', bg='Green', fg='White', relief='flat',
-                                                  activebackground='Green', command=partial(self.equip_ship, c, i))
+                    self.shopButtons[c][s].config(text='Owned', bg='Green', fg='White', relief='flat',
+                                                  activebackground='Green', command=partial(self.equip_ship, s, c))
 
     # Button command for soft-disabled ones
     def strawman(self):
