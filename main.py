@@ -34,7 +34,7 @@ colors = list((color, textColor, accentColor1, accentColor2))
 # Window specs
 
 root = Tk()
-root.geometry('1920x1080')
+root.geometry('1600x900')
 root.title('Battleships')
 root.configure(bg=color, border=25)
 root.resizable(False, False)

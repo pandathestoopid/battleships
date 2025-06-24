@@ -8,6 +8,32 @@ import drydock
 
 points = 10000
 
+
+# Scrollable frame class
+class ScrollFrame(Frame):
+    def __init__(self, container, bg, *args, **kwargs):
+        super().__init__(container, *args, **kwargs)
+        self.canvas = Canvas(self, borderwidth=0, bg=bg, highlightthickness=0, width=800, height=600)
+        self.scrollbar = Scrollbar(self, orient='vertical', command=self.canvas.yview)
+        self.scrollableFrame = Frame(self.canvas, bg=bg)
+
+        self.scrollableFrame.bind(
+            '<Configure>',
+            lambda e: self.canvas.configure(scrollregion=(self.canvas.bbox('all')))
+        )
+
+        self.canvas.create_window((0,0), window=self.scrollableFrame, anchor='nw')
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        self.canvas.pack(side='left', fill='both', expand=True)
+        self.scrollbar.pack(side='right', fill='y')
+
+        self.canvas.bind('<MouseWheel>', self.mouse_scroll)
+
+    def mouse_scroll(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), 'units')
+
+
 # The shop class
 class Shop:
     def __init__(self, root, country, colors):
@@ -99,8 +125,10 @@ class Shop:
         pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 14, 'bold'), fg='#006abb', bg=self.accentColor1)
         pointsCurrency.grid(column=1, row=1, sticky='w')
 
-        listingsFrame = Frame(self.shopFrame, bg=self.accentColor1)
-        listingsFrame.grid(column=0, row=2, padx=10, pady=10, sticky='w')
+        scrollFrame = ScrollFrame(self.shopFrame, bg=self.accentColor1)
+        scrollFrame.grid(column=0, row=2, padx=10, pady=10, sticky='w')
+
+        listingsFrame = scrollFrame.scrollableFrame
 
         # 2D list of buttons for the shop for referencing
 
