@@ -50,6 +50,8 @@ defaultFont.configure(family='Inter', size=10)
 # Load classes
 
 shopObj = shopFile.Shop(root = root, country = warships.countries[0], colors=colors)
+gridPly = grid.Grid(10, root = root, colors=colors, user='player')
+gridEny = grid.Grid(10, root = root, colors=colors, user='enemy')
 
 
 # Main menu window
@@ -95,6 +97,8 @@ class MainMenu:
     # Opens grid
     def opening_grid(self):
         self.button_animation(15, 0, 0, self.playButton, 'self.open_grid', 'Embarking', '>>', '<<', -1)
+        gridPly.generate(0)
+        gridEny.generate(1)
 
     # Opens shop
     def open_shop(self):

@@ -9,13 +9,14 @@ shipsPlaced = False
 
 
 class Grid:
-    def __init__(self, size, root, colors):
+    def __init__(self, size, root, colors, user):
         self.gridSize = size
         self.root = root
         self.color = colors[0]
         self.textColor = colors[1]
         self.accentColor1 = colors[2]
         self.accentColor2 = colors[3]
+        self.user = user
 
         # 2D list of buttons for later reference
         self.buttons = [[None for _ in range(size)] for _ in range(size)]
@@ -54,11 +55,11 @@ class Grid:
         self.highlight_ship(row, col, self.accentColor1, size)
 
     # Generates the grid with its buttons
-    def generate(self):
+    def generate(self, pos):
 
         # Makes a frame for the game
         playerFrame = Frame(self.root, bg=self.color)
-        playerFrame.grid(column=1, row=0, padx=10, pady=10)
+        playerFrame.grid(column=pos, row=0, padx=10, pady=10)
 
         # Makes a frame for the grid
         gridFrame = Frame(playerFrame, bg=self.color)
