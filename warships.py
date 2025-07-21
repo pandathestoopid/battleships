@@ -1,7 +1,5 @@
 from random import *
 
-import shop
-import grid
 
 countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'Japan']
 
@@ -55,7 +53,7 @@ carriers = {
                 'Takes one turn to cool down between sorties. Massive damage potential, but low accuracy. Vulnerable to being shot down.',
     'aaArmament': 'Fighter aircraft',
     'aaArmDesc': 'A fleet of air-superiority aircraft which can fire air-to-air missiles at enemy aircraft.'
-                 'Three groups cycle to keep defenses always active, making the carrier almost invincible to air attacks.',
+                 'Three groups cycle to keep defenses always active, making the ship almost invincible to air attacks.',
     'torp acc': 90,
     'torp instaSink': 5,
     'cooldown': 2,

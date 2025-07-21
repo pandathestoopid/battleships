@@ -50,8 +50,8 @@ defaultFont.configure(family='Inter', size=10)
 # Load classes
 
 shopObj = shopFile.Shop(root = root, country = warships.countries[0], colors=colors)
-gridPly = grid.Grid(10, root = root, colors=colors, user='player')
-gridEny = grid.Grid(10, root = root, colors=colors, user='enemy')
+gridPly = grid.Grid(10, root = root, colors=colors, user='You')
+gridEny = grid.Grid(10, root = root, colors=colors, user='AI')
 
 
 # Main menu window
@@ -94,11 +94,17 @@ class MainMenu:
         self.abort = False
 
 
-    # Opens grid
+    # Initiates grid opening
     def opening_grid(self):
-        self.button_animation(15, 0, 0, self.playButton, 'self.open_grid', 'Embarking', '>>', '<<', -1)
-        gridPly.generate(0)
+        self.button_animation(15, 0, 0, self.playButton, 'self.open_grid', 'Embarking', '>>', '<<', -1, 15)
+
+    def open_grid(self):
+        self.menuFrame.destroy()
+        root.grid_rowconfigure(0, weight=0)
+        gridTitle = Label(root, text='\u2192  Battleships', font=('Inter', 45, 'bold'), padx=35, pady=30, fg='#006abb', bg=color, anchor='w')
+        gridTitle.grid(column=0, row=0, sticky='w')
         gridEny.generate(1)
+        gridPly.generate(2)
 
     # Opens shop
     def open_shop(self):
@@ -135,16 +141,17 @@ class MainMenu:
                                relief='sunken', command=self.abort_game_close)
 
         # Starts the closing button animation
-        self.button_animation(0, 0, 18, self.exitButton, 'root.destroy', 'Abort', '<<', '>>', 1)
+        (self.button_animation
+         (0, 0, 18, self.exitButton, 'root.destroy', 'Abort', '<<', '>>', 1, 0))
 
     # Animation for any button that has arrows
-    def button_animation(self, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection):
+    def button_animation(self, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection, startPasses):
 
         # Adds a space to the abort button string
         spaces = ' ' * passes
 
         # Checks if the end command should be executed or aborted
-        if bigPasses == 5 and not self.abort: # Number of cycles before the end command is executed
+        if bigPasses == 3 and not self.abort: # Number of cycles before the end command is executed
             eval(f'{endCommand}()') # Evaluates the end command of the button animation
             return None
         elif self.abort: # Stops the function if the abort button is pressed
@@ -155,12 +162,14 @@ class MainMenu:
 
         # Updates the number of passes
         passes += animationDirection # Positive 1 moves the arrows away from the text, negative 1 moves them towards the text
+        print(passes) # Test
         if passes == maxPasses: # Number of passes before the number of spaces are reset
             bigPasses += 1
-            passes -= (maxPasses * animationDirection) # Resets passes to original value
+            passes = startPasses # Resets passes to original value
 
         # Animation that re-runs the function with all the same parameters every 10 ms
-        self.exitButton.after(40, partial(self.button_animation, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection))
+        (self.exitButton.after
+         (40, partial(self.button_animation, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection, startPasses)))
 
 
 main = MainMenu()

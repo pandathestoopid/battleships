@@ -59,11 +59,14 @@ class Grid:
 
         # Makes a frame for the game
         playerFrame = Frame(self.root, bg=self.color)
-        playerFrame.grid(column=pos, row=0, padx=10, pady=10)
+        playerFrame.grid(column=0, row=pos, padx=10, pady=20, sticky='n')
+
+        titleLabel = Label(playerFrame, text=f'{self.user}', font=('Inter', 20, 'bold'), bg=self.color, fg=self.textColor, width=5, anchor='e')
+        titleLabel.grid(column=0, row=0, padx=10, pady=5, sticky='nw')
 
         # Makes a frame for the grid
         gridFrame = Frame(playerFrame, bg=self.color)
-        gridFrame.grid(column=1, row=1, padx=5, pady=5)
+        gridFrame.grid(column=1, row=0, padx=5, pady=5)
 
         # Adds the buttons to the grid
         letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
