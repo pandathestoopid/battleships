@@ -4,9 +4,9 @@ from tkinter import font
 import os
 import time
 
-import grid
+import game
 import shop as shopFile
-import warships
+from warships import countries
 
 
 # Color theme
@@ -34,7 +34,7 @@ colors = list((color, textColor, accentColor1, accentColor2))
 # Window specs
 
 root = Tk()
-root.geometry('1600x900')
+root.geometry('1400x900')
 root.title('Battleships')
 root.configure(bg=color, border=25)
 root.resizable(False, False)
@@ -47,12 +47,10 @@ font.Font(root=root, name='Inter', size=10)
 defaultFont = font.nametofont('TkDefaultFont')
 defaultFont.configure(family='Inter', size=10)
 
-# Load classes
+# Load external instances
 
-shopObj = shopFile.Shop(root = root, country = warships.countries[0], colors=colors)
-gridPly = grid.Grid(10, root = root, colors=colors, user='You')
-gridEny = grid.Grid(10, root = root, colors=colors, user='AI')
-
+shopObj = shopFile.Shop(root = root, country = countries[0], colors=colors)
+gameObj = game.Game(root=root, colors=colors)
 
 # Main menu window
 
@@ -70,7 +68,7 @@ class MainMenu:
 
         # Play button
         self.playButton = Button(self.menuFrame, text='>>   Embark   <<', font=('Inter', 20, 'bold'), padx=5, pady=20,
-                                 fg='white', bg='#006abb', relief='groove', command=self.opening_grid) # This passes the actual command to a later function so that the button is defined
+                                 fg='white', bg='#006abb', relief='groove', command=self.opening_game) # This passes the actual command to a later function so that the button is defined
         self.playButton.grid(column=0, row=1, sticky='nsew')
 
         # Frame for dock and shop button
@@ -94,17 +92,15 @@ class MainMenu:
         self.abort = False
 
 
-    # Initiates grid opening
-    def opening_grid(self):
-        self.button_animation(15, 0, 0, self.playButton, 'self.open_grid', 'Embarking', '>>', '<<', -1, 15)
+    # Initiates game opening
+    def opening_game(self):
+        self.button_animation(15, 0, 0, self.playButton, 'self.open_game', 'Embarking', '>>', '<<', -1, 15)
 
-    def open_grid(self):
+    def open_game(self):
         self.menuFrame.destroy()
         root.grid_rowconfigure(0, weight=0)
-        gridTitle = Label(root, text='\u2192  Battleships', font=('Inter', 45, 'bold'), padx=35, pady=30, fg='#006abb', bg=color, anchor='w')
-        gridTitle.grid(column=0, row=0, sticky='w')
-        gridEny.generate(1)
-        gridPly.generate(2)
+        gameObj.start()
+
 
     # Opens shop
     def open_shop(self):

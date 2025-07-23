@@ -21,51 +21,28 @@ class Grid:
         # 2D list of buttons for later reference
         self.buttons = [[None for _ in range(size)] for _ in range(size)]
 
+        # Another 2D list that stores the game state
+        self.board = [[None for _ in range(size)] for _ in range(size)]
+
         # Ship preview options
         self.shipOrientation = 'horizontal' # Can be changed to vertical
 
         # Which ship is being previewed/placed
         self.shipIndex = 0
 
-    # Locks a square the user clicked on
-    def click(self, x, y):
-        if not shipsPlaced:
-            self.place(x, y)
-        else:
-            self.lock(x, y)
-        return
-
-    # Highlights multiple squares for ship placing
-    def highlight_ship(self, row, col, highlight, size):
-        for i in range(size):
-            try:
-                if self.shipOrientation == 'horizontal':
-                    self.buttons[row][col+i].config(bg=highlight)
-                elif self.shipOrientation == 'vertical':
-                    self.buttons[row+i][col].config(bg=highlight)
-            except IndexError:
-                break # Stops if out of bounds
-
-    # When the mouse hovers over a button
-    def on_button_enter(self, event, row, col, size):
-        self.highlight_ship(row, col, '#999', size)
-
-    # When the mouse is not hovering over a button
-    def on_button_leave(self, event, row, col, size):
-        self.highlight_ship(row, col, self.accentColor1, size)
 
     # Generates the grid with its buttons
     def generate(self, pos):
 
         # Makes a frame for the game
-        playerFrame = Frame(self.root, bg=self.color)
-        playerFrame.grid(column=0, row=pos, padx=10, pady=20, sticky='n')
+        self.playerFrame = Frame(self.root, bg=self.color)
+        self.playerFrame.grid(column=0, row=pos, padx=10, pady=15, sticky='n')
 
-        titleLabel = Label(playerFrame, text=f'{self.user}', font=('Inter', 20, 'bold'), bg=self.color, fg=self.textColor, width=5, anchor='e')
+        titleLabel = Label(self.playerFrame, text=f'{self.user}', font=('Inter', 20, 'bold'), bg=self.color, fg=self.textColor, width=5, anchor='e')
         titleLabel.grid(column=0, row=0, padx=10, pady=5, sticky='nw')
 
         # Makes a frame for the grid
-        gridFrame = Frame(playerFrame, bg=self.color)
+        gridFrame = Frame(self.playerFrame, bg=self.color)
         gridFrame.grid(column=1, row=0, padx=5, pady=5)
 
         # Adds the buttons to the grid
@@ -74,7 +51,8 @@ class Grid:
         for row in range(self.gridSize):
             for col in range(self.gridSize):
                 square = Button(
-                    gridFrame, bg=self.accentColor1, activebackground=self.accentColor2, width=3, height=1, relief='ridge', command=lambda r=letters[row], c=col+1: self.click(r, c))
+                    gridFrame, bg=self.accentColor1, activebackground=self.accentColor2, width=3, height=1, relief='ridge',
+                    command=lambda r=letters[row], c=col+1: self.click(r, c))
                 square.grid(column=col+1, row=row+1)
 
                 # Store buttons in 1 and 2D list
@@ -94,6 +72,29 @@ class Grid:
             letterLabel = Label(gridFrame, text=letter, bg=self.color, fg=self.textColor, padx=8, font=('Courier New', 10))
             letterLabel.grid(column=0, row=letters.index(letter)+1)
 
+    # Highlights multiple squares for ship placing
+    def highlight_ship(self, row, col, highlight, size):
+        for i in range(size):
+            try:
+                if self.shipOrientation == 'horizontal':
+                    if self.board[row][col + i] is not None:
+                        break
+                    self.buttons[row][col + i].config(bg=highlight)
+                elif self.shipOrientation == 'vertical':
+                    if self.board[row + i][col] is not None:
+                        break
+                    self.buttons[row + i][col].config(bg=highlight)
+            except IndexError:
+                break  # Stops if out of bounds
+
+    # When the mouse hovers over a button
+    def on_button_enter(self, event, row, col, size):
+        self.highlight_ship(row, col, '#999', size)
+
+    # When the mouse is not hovering over a button, size+1 is to remove the extra square no longer covered when the selection gets smaller
+    def on_button_leave(self, event, row, col, size):
+        self.highlight_ship(row, col, self.accentColor1, size + 1)
+
     # Begins the ship placement process
     def start_ship_placement(self):
 
@@ -106,7 +107,9 @@ class Grid:
         currentShip = warships.ships[self.shipIndex]
         self.shipType = currentShip['name']
         self.shipSize = currentShip['size']
-        print(f'{self.shipType} is {self.shipSize} squares long')
+
+        self.shipLabel = Label(self.playerFrame, text=f'{self.shipType.upper()}  [{self.shipSize}]', font=('Inter', 15, 'bold'), padx=50, pady=15, bg=self.color, fg='pale green', anchor='w')
+        self.shipLabel.grid(column=2, row=0, sticky='nw')
 
         for row in range(self.gridSize):
             for col in range(self.gridSize):
@@ -117,9 +120,25 @@ class Grid:
                 square.bind("<Enter>", lambda event, r=row, c=col: self.on_button_enter(event, r, c, self.shipSize))
                 square.bind("<Leave>", lambda event, r=row, c=col: self.on_button_leave(event, r, c, self.shipSize))
 
-    # Places the ship after clicking the desired square
+    # Locks a square the user clicked on
+    def click(self, x, y):
+        if not shipsPlaced:
+            self.place(x, y)
+        else:
+            self.lock(x, y)
+        return
+
+
+
+
+
+    # Places the ship after clicking the desired square and resets to run ship placement again
     def place(self, x, y):
-        pass
+        print(x,y)
+
+        self.shipIndex += 1
+        self.shipLabel.destroy()
+        self.start_ship_placement()
 
     # Locks the square after clicking the desired square
     def lock(self, x, y):
