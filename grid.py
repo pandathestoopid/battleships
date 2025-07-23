@@ -30,6 +30,12 @@ class Grid:
         # Which ship is being previewed/placed
         self.shipIndex = 0
 
+        # Defines the letters used on the grid
+        self.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
+        # If all ships are placed
+        self.shipsPlaced = False
+
 
     # Generates the grid with its buttons
     def generate(self, pos):
@@ -46,13 +52,11 @@ class Grid:
         gridFrame.grid(column=1, row=0, padx=5, pady=5)
 
         # Adds the buttons to the grid
-        letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-
         for row in range(self.gridSize):
             for col in range(self.gridSize):
                 square = Button(
                     gridFrame, bg=self.accentColor1, activebackground=self.accentColor2, width=3, height=1, relief='ridge',
-                    command=lambda r=letters[row], c=col+1: self.click(r, c))
+                    command=lambda r=row, c=col: self.click(r, c)) # Sends raw data
                 square.grid(column=col+1, row=row+1)
 
                 # Store buttons in 1 and 2D list
@@ -68,9 +72,9 @@ class Grid:
 
         # Labels for the left column (letters)
 
-        for letter in letters:
+        for letter in self.letters:
             letterLabel = Label(gridFrame, text=letter, bg=self.color, fg=self.textColor, padx=8, font=('Courier New', 10))
-            letterLabel.grid(column=0, row=letters.index(letter)+1)
+            letterLabel.grid(column=0, row=self.letters.index(letter)+1)
 
     # Highlights multiple squares for ship placing
     def highlight_ship(self, row, col, highlight, size):
@@ -99,6 +103,8 @@ class Grid:
     def start_ship_placement(self):
 
         if self.shipIndex >= len(warships.ships):
+            self.shipSize = 1
+            self.shipsPlaced = True
             print('All ships placed, may the best Admiral win!')
             # Will make this start the game, return is temporary
             return
@@ -121,26 +127,63 @@ class Grid:
                 square.bind("<Leave>", lambda event, r=row, c=col: self.on_button_leave(event, r, c, self.shipSize))
 
     # Locks a square the user clicked on
-    def click(self, x, y):
-        if not shipsPlaced:
-            self.place(x, y)
+    def click(self, y, x):
+        if not self.shipsPlaced:
+            self.place(y, x)
         else:
-            self.lock(x, y)
+            self.lock(y, x)
         return
 
+    # Places the ship after clicking the desired square
+    def place(self, y, x):
+
+        while True:
+            try:
+                if self.shipOrientation == 'horizontal':
+                    # Checks that the ship will fit
+                    if x + self.shipSize > self.gridSize:
+                        raise IndexError
+
+                    # Checks if the ship collides with another
+                    for s in range(self.shipSize):
+                        if self.board[y][x+s] is not None:
+                            raise IndexError
+
+                    # Places the ship along the set axis
+                    self.board[y][x:(x+self.shipSize)] = [self.shipType] * self.shipSize
+                    # Updates the buttons once at a time
+                    for s in range(self.shipSize):
+                        self.buttons[y][x+s].config(bg='#AAA', relief='sunken')
+
+                elif self.shipOrientation == 'vertical':
+                    # Checks that the ship will fit
+                    if y + self.shipSize > self.gridSize:
+                        raise IndexError
+
+                    # Checks if the ship collides with another
+                    for s in range(self.shipSize):
+                        if self.board[y+s][x] is not None:
+                            raise IndexError
+
+                    self.board[y:(y+self.shipSize)][x] = self.shipType
+                    # Updates the buttons once at a time
+                    for s in range(self.shipSize):
+                        self.buttons[y+s][x].config(bg='#AAA', relief='sunken')
+                # Once placement is successful, the while loop ends
+                break
+            except IndexError:
+                oobLabel = Label(self.playerFrame, text='ERROR: Out of bounds', font=('Inter', 20, 'bold'), padx=40, pady=15, bg='red', fg='#fff')
+                oobLabel.grid(column=1, row=0, sticky='ew')
+                oobLabel.after(1500, oobLabel.destroy)
+                return
 
 
-
-
-    # Places the ship after clicking the desired square and resets to run ship placement again
-    def place(self, x, y):
-        print(x,y)
-
+        # Moves to the next ship, resets the label, and repeats the process
         self.shipIndex += 1
         self.shipLabel.destroy()
         self.start_ship_placement()
 
     # Locks the square after clicking the desired square
-    def lock(self, x, y):
+    def lock(self, y, x):
         pass
 
