@@ -76,6 +76,14 @@ class Grid:
             letterLabel = Label(gridFrame, text=letter, bg=self.color, fg=self.textColor, padx=8, font=('Courier New', 10))
             letterLabel.grid(column=0, row=self.letters.index(letter)+1)
 
+
+    # Rotates the ship placer
+    def rotate_ship(self):
+        if self.shipOrientation == 'horizontal':
+            self.shipOrientation = 'vertical'
+        elif self.shipOrientation == 'vertical':
+            self.shipOrientation = 'horizontal'
+
     # Highlights multiple squares for ship placing
     def highlight_ship(self, row, col, highlight, size):
         for i in range(size):
@@ -99,12 +107,19 @@ class Grid:
     def on_button_leave(self, event, row, col, size):
         self.highlight_ship(row, col, self.accentColor1, size + 1)
 
+
     # Begins the ship placement process
     def start_ship_placement(self):
+
+        # Rotate button
+        rotateButton = Button(self.playerFrame, text='Rotate \u21BA', font=('Inter', 12, 'bold'), bg='#006abb',
+                              fg='#fff', relief='flat', padx=15, command=self.rotate_ship)
+        rotateButton.grid(column=1, row=1, pady=15)
 
         if self.shipIndex >= len(warships.ships):
             self.shipSize = 1
             self.shipsPlaced = True
+            rotateButton.destroy()
             print('All ships placed, may the best Admiral win!')
             # Will make this start the game, return is temporary
             return
@@ -149,10 +164,9 @@ class Grid:
                         if self.board[y][x+s] is not None:
                             raise IndexError
 
-                    # Places the ship along the set axis
-                    self.board[y][x:(x+self.shipSize)] = [self.shipType] * self.shipSize
-                    # Updates the buttons once at a time
+                    # Places the ship and updates the buttons one square at a time
                     for s in range(self.shipSize):
+                        self.board[y][x+s] = self.shipType
                         self.buttons[y][x+s].config(bg='#AAA', relief='sunken')
 
                 elif self.shipOrientation == 'vertical':
@@ -165,9 +179,9 @@ class Grid:
                         if self.board[y+s][x] is not None:
                             raise IndexError
 
-                    self.board[y:(y+self.shipSize)][x] = self.shipType
-                    # Updates the buttons once at a time
+                    # Places the ship and updates the buttons one square at a time
                     for s in range(self.shipSize):
+                        self.board[y+s][x] = self.shipType
                         self.buttons[y+s][x].config(bg='#AAA', relief='sunken')
                 # Once placement is successful, the while loop ends
                 break
