@@ -18,7 +18,7 @@ class Game:
     def start(self):
 
         gridPly = grid.Grid(10, root=self.root, colors=self.colors, user='You')
-        gridEny = grid.Grid(10, root=self.root, colors=self.colors, user='AI')
+        gridAi = grid.Grid(10, root=self.root, colors=self.colors, user='AI')
 
         gridTitle = Label(self.root, text='\u2192  Place your Ships', font=('Inter', 45, 'bold'), padx=25, pady=25, fg='green',
                           bg=self.color, anchor='w')
@@ -26,3 +26,4 @@ class Game:
 
         gridPly.generate(2)
         gridPly.start_ship_placement()
+        gridAi.generate(1)

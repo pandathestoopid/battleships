@@ -42,7 +42,7 @@ class Grid:
 
         # Makes a frame for the game
         self.playerFrame = Frame(self.root, bg=self.color)
-        self.playerFrame.grid(column=0, row=pos, padx=10, pady=15, sticky='n')
+        self.playerFrame.grid(column=0, row=pos, padx=10, pady=15, sticky='nw')
 
         titleLabel = Label(self.playerFrame, text=f'{self.user}', font=('Inter', 20, 'bold'), bg=self.color, fg=self.textColor, width=5, anchor='e')
         titleLabel.grid(column=0, row=0, padx=10, pady=5, sticky='nw')
@@ -55,7 +55,7 @@ class Grid:
         for row in range(self.gridSize):
             for col in range(self.gridSize):
                 square = Button(
-                    gridFrame, bg=self.accentColor1, activebackground=self.accentColor2, width=3, height=1, relief='ridge',
+                    gridFrame, state='disabled', bg=self.accentColor1, activebackground=self.accentColor2, width=3, height=1, relief='ridge',
                     command=lambda r=row, c=col: self.click(r, c)) # Sends raw data
                 square.grid(column=col+1, row=row+1)
 
@@ -111,6 +111,10 @@ class Grid:
     # Begins the ship placement process
     def start_ship_placement(self):
 
+        for row in self.buttons:
+            for button in row:
+                button.config(state='normal')
+
         # Rotate button
         rotateButton = Button(self.playerFrame, text='Rotate \u21BA', font=('Inter', 12, 'bold'), bg='#006abb',
                               fg='#fff', relief='flat', padx=15, command=self.rotate_ship)
@@ -121,7 +125,6 @@ class Grid:
             self.shipsPlaced = True
             rotateButton.destroy()
             print('All ships placed, may the best Admiral win!')
-            # Will make this start the game, return is temporary
             return
 
         # Sets the attributes for the current ship that is being placed
@@ -201,3 +204,6 @@ class Grid:
     def lock(self, y, x):
         pass
 
+    # Get the board state
+    def get_board(self):
+        return self.board
