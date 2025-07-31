@@ -113,7 +113,7 @@ class Grid:
     # Automatically places the ships
     def autoPlace(self):
         self.shipSize = 5
-        self.place(ai.place())
+        self.place(ai.Placer.place(5))
 
     # Begins the ship placement process
     def start_ship_placement(self, ai=None, difficulty=0, doneCallback=None):

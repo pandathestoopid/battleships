@@ -30,9 +30,17 @@ class Placer:
             adjacentTendency = 1
             # blacklist
         elif difficulty == 6: # Admiral, places strategically
+            centerTendency = 1
+            edgeTendency = 1
+            adjacentTendency = 1
+            # baller
 
 
         self.gridSize = size
         self.board = self.board = [[None for _ in range(size)] for _ in range(size)]
 
-    def place(self, size)
+    def place(self, size):
+
+        x = 0
+        y = 0
+        return x, y
