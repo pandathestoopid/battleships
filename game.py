@@ -2,6 +2,7 @@ from tkinter import *
 
 import grid
 import drydock
+import ai
 
 
 class Game:
@@ -13,6 +14,14 @@ class Game:
         self.accentColor1 = colors[2]
         self.accentColor2 = colors[3]
 
+        # Boards for the player and AI, stored in 2D lists
+        self.plyBoard = []
+        self.aiBoard = []
+
+
+    def on_ships_placed(self, currentBoard):
+        print('control handed back to game file.')
+        currentBoard = grid.board
 
     # Starts the game by generating the grid and sidebar
     def start(self):
@@ -24,6 +33,8 @@ class Game:
                           bg=self.color, anchor='w')
         gridTitle.grid(column=0, row=0, sticky='w')
 
+
         gridPly.generate(2)
-        gridPly.start_ship_placement()
+        gridPly.start_ship_placement(doneCallback=lambda: self.on_ships_placed(self.plyBoard)) # Sets ship visibility to true, sets board to player's
         gridAi.generate(1)
+        gridAi.start_ship_placement(True, doneCallback=lambda: self.on_ships_placed(self.aiBoard)) # Sets ship visibility to false, sets board to AI's

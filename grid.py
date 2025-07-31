@@ -1,10 +1,11 @@
 from tkinter import *
 
 import warships
+import ai
 
-squares = []
+# Initialized global variables
+board = []
 
-# Test, value should be false
 shipsPlaced = False
 
 
@@ -36,6 +37,9 @@ class Grid:
         # If all ships are placed
         self.shipsPlaced = False
 
+        # Defines if AI is running ship placing
+        self.auto = False
+
 
     # Generates the grid with its buttons
     def generate(self, pos):
@@ -59,9 +63,8 @@ class Grid:
                     command=lambda r=row, c=col: self.click(r, c)) # Sends raw data
                 square.grid(column=col+1, row=row+1)
 
-                # Store buttons in 1 and 2D list
+                # Store buttons in 2D list
                 self.buttons[row][col] = square
-                squares.append(square)
 
 
         # Labels for the top row (numbers)
@@ -107,9 +110,24 @@ class Grid:
     def on_button_leave(self, event, row, col, size):
         self.highlight_ship(row, col, self.accentColor1, size + 1)
 
+    # Automatically places the ships
+    def autoPlace(self):
+        self.shipSize = 5
+        self.place(ai.place())
 
     # Begins the ship placement process
-    def start_ship_placement(self):
+    def start_ship_placement(self, ai=None, difficulty=0, doneCallback=None):
+
+        # Checks if this is the AI board
+        if ai is True:
+            self.auto = True
+            self.visible = False
+            self.difficulty = difficulty
+            self.autoPlace()
+
+        # Sets up callback function and only writes when one is passed from the parent file
+        if doneCallback is not None:
+            self.doneCallback = doneCallback
 
         for row in self.buttons:
             for button in row:
@@ -120,11 +138,15 @@ class Grid:
                               fg='#fff', relief='flat', padx=15, command=self.rotate_ship)
         rotateButton.grid(column=1, row=1, pady=15)
 
+        # Routine before passing back to game.py
         if self.shipIndex >= len(warships.ships):
-            self.shipSize = 1
+            print('All ships placed, may the best Admiral win!')
+            self.shipSize = 0 # Removes highlight
+            global board
+            board = self.board
             self.shipsPlaced = True
             rotateButton.destroy()
-            print('All ships placed, may the best Admiral win!')
+            self.doneCallback() # Callback function
             return
 
         # Sets the attributes for the current ship that is being placed
@@ -170,7 +192,8 @@ class Grid:
                     # Places the ship and updates the buttons one square at a time
                     for s in range(self.shipSize):
                         self.board[y][x+s] = self.shipType
-                        self.buttons[y][x+s].config(bg='#AAA', relief='sunken')
+                        if self.visible:
+                            self.buttons[y][x+s].config(bg='#AAA', relief='sunken')
 
                 elif self.shipOrientation == 'vertical':
                     # Checks that the ship will fit
@@ -185,7 +208,8 @@ class Grid:
                     # Places the ship and updates the buttons one square at a time
                     for s in range(self.shipSize):
                         self.board[y+s][x] = self.shipType
-                        self.buttons[y+s][x].config(bg='#AAA', relief='sunken')
+                        if self.visible:
+                            self.buttons[y+s][x].config(bg='#AAA', relief='sunken')
                 # Once placement is successful, the while loop ends
                 break
             except IndexError:
@@ -195,15 +219,15 @@ class Grid:
                 return
 
 
-        # Moves to the next ship, resets the label, and repeats the process
-        self.shipIndex += 1
-        self.shipLabel.destroy()
-        self.start_ship_placement()
+        # Moves to the next ship, resets the label, and repeats the process (only if ships are being placed manually)
+        if not self.auto:
+            self.shipIndex += 1
+            self.shipLabel.destroy()
+            self.start_ship_placement()
 
     # Locks the square after clicking the desired square
     def lock(self, y, x):
         pass
 
     # Get the board state
-    def get_board(self):
-        return self.board
+
