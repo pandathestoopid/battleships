@@ -35,6 +35,6 @@ class Game:
 
 
         gridPly.generate(2)
-        gridPly.start_ship_placement(doneCallback=lambda: self.on_ships_placed(self.plyBoard)) # Sets ship visibility to true, sets board to player's
+        gridPly.start_ship_placement(doneCallback=lambda: self.on_ships_placed(self.plyBoard))
         gridAi.generate(1)
-        gridAi.start_ship_placement(True, doneCallback=lambda: self.on_ships_placed(self.aiBoard)) # Sets ship visibility to false, sets board to AI's
+        gridAi.start_ship_placement(doneCallback=lambda: self.on_ships_placed(self.aiBoard))

@@ -40,6 +40,12 @@ class Grid:
         # Defines if AI is running ship placing
         self.auto = False
 
+        # Initializes the AI placing program
+        self.placer = ai.Placer(3, 10)
+
+        # Determines whether ships are intitially visible based on whose grid this is, temporarily commented for testing
+        self.visible = True # if user == 'You' else False
+
 
     # Generates the grid with its buttons
     def generate(self, pos):
@@ -112,31 +118,33 @@ class Grid:
 
     # Automatically places the ships
     def autoPlace(self):
-        self.shipSize = 5
-        self.place(ai.Placer.place(5))
+        for sType in warships.ships: # Goes through the 5 types of ships in the main ship library
+            self.shipSize = sType['size'] # Pulls the type's size from its dictionary
+            self.shipType = sType['name'] # Pulls the type's name from its dictionary
+            x, y, self.shipOrientation = self.placer.place(self.shipSize)
+            self.place(y,x)
 
     # Begins the ship placement process
-    def start_ship_placement(self, ai=None, difficulty=0, doneCallback=None):
+    def start_ship_placement(self, doneCallback=None):
 
-        # Checks if this is the AI board
-        if ai is True:
+        # Checks if this is the AI board, if so, enables auto-placing; if not, enables the buttons to manually place
+        if self.user == 'AI':
             self.auto = True
-            self.visible = False
-            self.difficulty = difficulty
             self.autoPlace()
+        else:
+            for row in self.buttons:
+                for button in row:
+                    button.config(state='normal')
 
         # Sets up callback function and only writes when one is passed from the parent file
         if doneCallback is not None:
             self.doneCallback = doneCallback
 
-        for row in self.buttons:
-            for button in row:
-                button.config(state='normal')
-
-        # Rotate button
-        rotateButton = Button(self.playerFrame, text='Rotate \u21BA', font=('Inter', 12, 'bold'), bg='#006abb',
-                              fg='#fff', relief='flat', padx=15, command=self.rotate_ship)
-        rotateButton.grid(column=1, row=1, pady=15)
+        # Rotate button, which appears only if the grid user is the player
+        if self.user == 'You':
+            rotateButton = Button(self.playerFrame, text='Rotate \u21BA', font=('Inter', 12, 'bold'), bg='#006abb',
+                                  fg='#fff', relief='flat', padx=15, command=self.rotate_ship)
+            rotateButton.grid(column=1, row=1, pady=15)
 
         # Routine before passing back to game.py
         if self.shipIndex >= len(warships.ships):
