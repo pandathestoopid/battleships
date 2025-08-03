@@ -95,18 +95,32 @@ class Grid:
 
     # Highlights multiple squares for ship placing
     def highlight_ship(self, row, col, highlight, size):
-        for i in range(size):
-            try:
-                if self.shipOrientation == 'horizontal':
-                    if self.board[row][col + i] is not None:
-                        break
-                    self.buttons[row][col + i].config(bg=highlight)
-                elif self.shipOrientation == 'vertical':
-                    if self.board[row + i][col] is not None:
-                        break
-                    self.buttons[row + i][col].config(bg=highlight)
-            except IndexError:
-                break  # Stops if out of bounds
+        if self.user == 'You':
+            for i in range(size):
+                try:
+                    if self.shipOrientation == 'horizontal':
+                        if self.board[row][col + i] is not None:
+                            break
+                        self.buttons[row][col + i].config(bg=highlight)
+                    elif self.shipOrientation == 'vertical':
+                        if self.board[row + i][col] is not None:
+                            break
+                        self.buttons[row + i][col].config(bg=highlight)
+                except IndexError:
+                    break  # Stops if out of bounds
+        else:
+            for i in range(1):
+                try:
+                    if self.shipOrientation == 'horizontal':
+                        if self.board[row][col] is not None:
+                            break
+                        self.buttons[row][col].config(bg=highlight)
+                    elif self.shipOrientation == 'vertical':
+                        if self.board[row][col] is not None:
+                            break
+                        self.buttons[row][col].config(bg=highlight)
+                except IndexError:
+                    break  # Stops if out of bounds
 
     # When the mouse hovers over a button
     def on_button_enter(self, event, row, col, size):

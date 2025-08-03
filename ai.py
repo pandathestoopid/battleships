@@ -58,8 +58,8 @@ class Placer:
 
             bad = False
             if orient == 'horizontal':
-                for s in range(size):
-                    if self.board[y][x+s] is not None: # Checks there is not a ship in the way, if there is the loop restarts
+                for s, c in range(-1, size+1), range(-1,1):
+                    if self.board[y+c][x+s] is not None: # Checks there is not a ship in the way, if there is the loop restarts
                         bad = True
                         break # Exits the for loop so that the continue statement skips the while loop
                 if bad:
