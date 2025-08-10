@@ -78,15 +78,18 @@ class Placer:
                         self.board[y][x+s] = size # Updates the board if the checks pass
             elif orient == 'vertical':
                 for s in range(-1, size+1):
-                    if self.board[y+s][x] is not None: # Checks there is not a ship in the way or next to it; if there is, the loop restarts
+                    if self.board[y+s][x] is not None: # Checks main vertical line
                         bad = True
                         print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
-                for s in range(-1, 1):
-                    if self.board[y][x+s] is not None: # Checks there is not a ship on the side of it; if there is, the loop restarts
+                    if self.board[y+s][x-1] is not None:  # Checks the left vertical line
                         bad = True
                         print('oops')
-                        break # Exits the for loop so that the continue statement skips the while loop
+                        break
+                    if self.board[y+s][x+1] is not None:  # Checks the right vertical line
+                        bad = True
+                        print('oops')
+                        break
                 if bad:
                     continue
                 else:
