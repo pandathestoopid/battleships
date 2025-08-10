@@ -63,11 +63,11 @@ class Placer:
                         bad = True
                         print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
-                    if self.board[y-1][x+s] is not None: # Checks the above horizontal line
+                    if y-1 >= 0 and self.board[y-1][x+s] is not None: # Checks above horizontal line (if it exists)
                         bad = True
                         print('oops')
                         break
-                    if self.board[y+1][x+s] is not None: # Checks the below horizontal line
+                    if y+1 < self.gridSize and self.board[y+1][x+s] is not None: # Checks below horizontal line (if it exists)
                         bad = True
                         print('oops')
                         break
@@ -82,11 +82,11 @@ class Placer:
                         bad = True
                         print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
-                    if self.board[y+s][x-1] is not None:  # Checks the left vertical line
+                    if x-1 >= 0 and self.board[y+s][x-1] is not None:  # Checks the left vertical line
                         bad = True
                         print('oops')
                         break
-                    if self.board[y+s][x+1] is not None:  # Checks the right vertical line
+                    if x+1 < self.gridSize and self.board[y+s][x+1] is not None:  # Checks the right vertical line
                         bad = True
                         print('oops')
                         break
