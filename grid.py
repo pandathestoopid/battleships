@@ -59,7 +59,7 @@ class Grid:
 
         # Makes a frame for the grid
         gridFrame = Frame(self.playerFrame, bg=self.color)
-        gridFrame.grid(column=1, row=0, padx=5, pady=5)
+        gridFrame.grid(column=1, row=0, padx=5, pady=3)
 
         # Adds the buttons to the grid
         for row in range(self.gridSize):
@@ -99,13 +99,13 @@ class Grid:
             for i in range(size):
                 try:
                     if self.shipOrientation == 'horizontal':
-                        if self.board[row][col + i] is not None:
+                        if self.board[row][col+i] is not None:
                             break
-                        self.buttons[row][col + i].config(bg=highlight)
+                        self.buttons[row][col+i].config(bg=highlight)
                     elif self.shipOrientation == 'vertical':
-                        if self.board[row + i][col] is not None:
+                        if self.board[row+i][col] is not None:
                             break
-                        self.buttons[row + i][col].config(bg=highlight)
+                        self.buttons[row+i][col].config(bg=highlight)
                 except IndexError:
                     break  # Stops if out of bounds
         else:
@@ -128,10 +128,16 @@ class Grid:
 
     # When the mouse is not hovering over a button, size+1 is to remove the extra square no longer covered when the selection gets smaller
     def on_button_leave(self, event, row, col, size):
-        self.highlight_ship(row, col, self.accentColor1, size + 1)
+        self.highlight_ship(row, col, self.accentColor1, size+1)
+
+    # Clears the board
+    def clear_board(self):
+
+
 
     # Automatically places the ships
     def autoPlace(self):
+        self.placer.reset()
         for sType in warships.ships: # Goes through the 5 types of ships in the main ship library
             self.shipSize = sType['size'] # Pulls the type's size from its dictionary
             self.shipType = sType['name'] # Pulls the type's name from its dictionary
@@ -143,6 +149,8 @@ class Grid:
 
         # Checks if this is the AI board, if so, enables auto-placing; if not, enables the buttons to manually place
         if self.user == 'AI':
+            regenButton = Button(self.playerFrame, text='\u21BB Regenerate Ships', font=('Inter', 12, 'bold'), bg='#2c993b', fg='#fff', relief='flat', padx=15, command=self.autoPlace)
+            regenButton.grid(column=2, row=0, sticky='w', padx=20)
             self.auto = True
             self.autoPlace()
         else:
@@ -156,7 +164,7 @@ class Grid:
 
         # Rotate button, which appears only if the grid user is the player
         if self.user == 'You':
-            rotateButton = Button(self.playerFrame, text='Rotate \u21BA', font=('Inter', 12, 'bold'), bg='#006abb',
+            rotateButton = Button(self.playerFrame, text='Rotate \u21BB', font=('Inter', 12, 'bold'), bg='#006abb',
                                   fg='#fff', relief='flat', padx=15, command=self.rotate_ship)
             rotateButton.grid(column=1, row=1, pady=15)
 
@@ -176,8 +184,10 @@ class Grid:
         self.shipType = currentShip['name']
         self.shipSize = currentShip['size']
 
-        self.shipLabel = Label(self.playerFrame, text=f'{self.shipType.upper()}  [{self.shipSize}]', font=('Inter', 15, 'bold'), padx=50, pady=15, bg=self.color, fg='pale green', anchor='w')
-        self.shipLabel.grid(column=2, row=0, sticky='nw')
+        # Shows which ship is being placed, only used for player's grid
+        if self.user == 'You':
+            self.shipLabel = Label(self.playerFrame, text=f'{self.shipType.upper()}  [{self.shipSize}]', font=('Inter', 15, 'bold'), padx=50, pady=15, bg=self.color, fg='pale green', anchor='w')
+            self.shipLabel.grid(column=2, row=0, sticky='nw')
 
         for row in range(self.gridSize):
             for col in range(self.gridSize):

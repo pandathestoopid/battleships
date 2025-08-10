@@ -29,7 +29,7 @@ class Game:
         gridPly = grid.Grid(10, root=self.root, colors=self.colors, user='You')
         gridAi = grid.Grid(10, root=self.root, colors=self.colors, user='AI')
 
-        gridTitle = Label(self.root, text='\u2192  Place your Ships', font=('Inter', 45, 'bold'), padx=25, pady=25, fg='green',
+        gridTitle = Label(self.root, text='\u2192  Place your Ships', font=('Inter', 45, 'bold'), padx=25, pady=5, fg='green',
                           bg=self.color, anchor='w')
         gridTitle.grid(column=0, row=0, sticky='w')
 

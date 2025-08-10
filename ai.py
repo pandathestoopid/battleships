@@ -37,7 +37,11 @@ class Placer:
             # baller
 
         self.gridSize = size
-        self.board = self.board = [[None for _ in range(size)] for _ in range(size)]
+        self.board = [[None for _ in range(size)] for _ in range(size)]
+
+    # Resets the board
+    def reset(self):
+        self.board = [[None for _ in range(self.gridSize)] for _ in range(self.gridSize)]
 
     # Places the ship
     def place(self, size):
