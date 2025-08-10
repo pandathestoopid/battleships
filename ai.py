@@ -58,25 +58,40 @@ class Placer:
 
             bad = False
             if orient == 'horizontal':
-                for s, c in range(-1, size+1), range(-1,1):
-                    if self.board[y+c][x+s] is not None: # Checks there is not a ship in the way, if there is the loop restarts
+                for s in range(-1, size+1):
+                    if self.board[y][x+s] is not None: # Checks main horizontal line
                         bad = True
+                        print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
+                    if self.board[y-1][x+s] is not None: # Checks the above horizontal line
+                        bad = True
+                        print('oops')
+                        break
+                    if self.board[y+1][x+s] is not None: # Checks the below horizontal line
+                        bad = True
+                        print('oops')
+                        break
                 if bad:
                     continue
                 else:
                     for s in range(size):
-                        self.board[y][x+s] = size # Updates the board if the collision check passes
+                        self.board[y][x+s] = size # Updates the board if the checks pass
             elif orient == 'vertical':
-                for s in range(size):
-                    if self.board[y+s][x] is not None: # Checks there is not a ship in the way, if there is the loop restarts
+                for s in range(-1, size+1):
+                    if self.board[y+s][x] is not None: # Checks there is not a ship in the way or next to it; if there is, the loop restarts
                         bad = True
+                        print('oops')
+                        break # Exits the for loop so that the continue statement skips the while loop
+                for s in range(-1, 1):
+                    if self.board[y][x+s] is not None: # Checks there is not a ship on the side of it; if there is, the loop restarts
+                        bad = True
+                        print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
                 if bad:
                     continue
                 else:
                     for s in range(size):
-                        self.board[y+s][x] = size # Updates the board if the collision check passes
+                        self.board[y+s][x] = size # Updates the board if the checks pass
 
             print(x, y, orient, size)
             return x, y, orient # Returns the ship's origin placement coordinates to the grid
