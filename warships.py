@@ -392,8 +392,7 @@ country = 'United States'
 # Upgrade config used by player (placeholder)
 
 
-
-# Localized test routine
+# Packing
 
 carrier = Ship(carriers, caLevel, country)
 battleship = Ship(battleships, baLevel, country)

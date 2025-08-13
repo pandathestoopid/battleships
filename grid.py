@@ -132,11 +132,14 @@ class Grid:
 
     # Clears the board
     def clear_board(self):
-
-
+        self.board = [[None for _ in range(self.gridSize)] for _ in range(self.gridSize)]
+        for row in self.buttons:
+            for button in row:
+                button.config(bg=self.accentColor1)
 
     # Automatically places the ships
     def autoPlace(self):
+        self.clear_board()
         self.placer.reset()
         for sType in warships.ships: # Goes through the 5 types of ships in the main ship library
             self.shipSize = sType['size'] # Pulls the type's size from its dictionary
@@ -262,4 +265,5 @@ class Grid:
         pass
 
     # Get the board state
+
 
