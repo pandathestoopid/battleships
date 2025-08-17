@@ -14,6 +14,8 @@ countryColors = {
 
 # Carriers
 
+# United States
+
 kittyHawk = {
     'name': 'USS Kitty Hawk',
     'nation': 'United States',
@@ -42,9 +44,39 @@ ford = {
     'type': 'Carrier'
 }
 
+# Soviet Union
+
+kiev = {
+    'name': ' Kiev',
+    'nation': 'Soviet Union',
+    'level': 0,
+    'type': 'Carrier'
+}
+
+baku = {
+    'name': 'Baku',
+    'nation': 'Soviet Union',
+    'level': 1,
+    'type': 'Carrier'
+}
+
+kuznetsov = {
+    'name': 'Admiral Flota Sovetskogo Soyuza Kuznetsov',
+    'nation': 'Soviet Union',
+    'level': 2,
+    'type': 'Carrier'
+}
+
+ulyanovsk = {
+    'name': 'Ulyanovsk',
+    'nation': 'Soviet Union',
+    'level': 3,
+    'type': 'Carrier'
+}
+
 # List of each nation's carriers
 usCars = [kittyHawk, enterprise, lincoln, ford]
-sovCars = None
+sovCars = [kiev, baku, kuznetsov, ulyanovsk]
 
 carriers = {
     'name': 'Aircraft Carrier',
@@ -63,6 +95,8 @@ carriers = {
 }
 
 # Battleships
+
+# United States
 
 washington = {
     'name': 'USS Washington',
@@ -92,9 +126,20 @@ montana = {
     'type': 'Battleship'
 }
 
+# Soviet Union
+
+
+
+sovetsky = {
+    'name': 'Sovetsky Soyuz',
+    'nation': 'Soviet Union',
+    'level': 3,
+    'type': 'Battleship'
+}
+
 # List of each nation's battleships
 usBats = [washington, northCarolina, wisconsin, montana]
-sovBats = None
+sovBats = [sovetsky]
 
 battleships = {
     'name': 'Battleship',
@@ -139,8 +184,17 @@ intrepid = {
     'type': 'Destroyer'
 }
 
+# Soviet Union
+
+moskva = {
+    'name': 'Moskva',
+    'nation': 'Soviet Union',
+    'level': 0,
+    'type': 'Battleship'
+}
+
 usDests = [decatur, fletcher, spruance, intrepid]
-sovDests = None
+sovDests = [moskva]
 
 destroyers = {
     'name': 'Destroyer',
