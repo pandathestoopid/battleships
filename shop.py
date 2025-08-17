@@ -44,6 +44,7 @@ class Shop:
         self.textColor = colors[1]
         self.accentColor1 = colors[2]
         self.accentColor2 = colors[3]
+        self.countryColor = colors[4]
 
         # Country the player is shopping for
         self.country = country
@@ -66,39 +67,6 @@ class Shop:
         self.classNames = ['Carriers', 'Battleships', 'Destroyers', 'Submarines', 'Frigates']
         self.levelNames = ['Basic', 'Standard', 'Enhanced', 'Superior']
 
-        # List of dictionaries for button states (for easier customization), commands cannot be listed here due to situational requirements
-
-        buy = { # The standard button showing default, not-yet-interacted-with elements
-            'text': 'Buy',
-            'color': warships.countryColors[self.country],
-            'relief': 'flat'
-        }
-
-        declined = {
-            'text': 'Declined',
-            'color': '#db4040'
-        }
-
-        confirm = {
-            'text': 'Confirm',
-            'color': warships.countryColors[self.country],
-            'relief': 'flat'
-        }
-
-        owned = {
-            'text': 'Owned',
-            'color': 'Green',
-            'relief': 'flat'
-        }
-
-        equipped = {
-            'text': 'Equipped',
-            'color': 'Green',
-            'relief': 'sunken'
-        }
-
-        self.buttonStates = [buy, declined, confirm, owned, equipped]
-
 
     # Opens the shop window
     def open(self):
@@ -112,7 +80,7 @@ class Shop:
         titleFrame.grid(column=0, row=0, padx=10, pady=10, sticky='w')
         titleLabel1 = Label(titleFrame, text=f'Shop for ', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel1.grid(column=0, row=0, sticky='w')
-        titleLabel2 = Label(titleFrame, text=f'{self.country}', font=('Inter', 20, 'bold'), bg=warships.countryColors[self.country][0], fg='white')
+        titleLabel2 = Label(titleFrame, text=f'{self.country}', font=('Inter', 20, 'bold'), bg=self.countryColor, fg='white')
         titleLabel2.grid(column=1, row=0, sticky='w')
         titleLabel3 = Label(titleFrame, text=f' ships', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel3.grid(column=2, row=0, sticky='w')
@@ -122,7 +90,7 @@ class Shop:
         pointsFrame.grid(column=0, row=1, padx=10, pady=10, sticky='w')
         self.pointsAvailable = Label(pointsFrame, text=f'Points Available:  {points}', font=('Inter', 14, 'bold'), bg=self.accentColor1, fg=self.textColor)
         self.pointsAvailable.grid(column=0, row=1, sticky='w')
-        pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 14, 'bold'), fg='#006abb', bg=self.accentColor1)
+        pointsCurrency = Label(pointsFrame, text='P', font=('Inter', 14, 'bold'), fg=self.countryColor, bg=self.accentColor1)
         pointsCurrency.grid(column=1, row=1, sticky='w')
 
         scrollFrame = ScrollFrame(self.shopFrame, bg=self.accentColor1)
@@ -180,7 +148,7 @@ class Shop:
 
                 # Buy button
                 shipBuy = Button(
-                    shipFrame, text='Buy', bg=warships.countryColors[self.country][0], fg='White', font=('Inter', 11, 'bold'), padx=20, relief='flat',
+                    shipFrame, text='Buy', bg=self.countryColor, fg='White', font=('Inter', 11, 'bold'), padx=20, relief='flat',
                     command=lambda price=(200*ship['level']**3), shopShip=s, shopClass=c: self.confirm_purchase(price, shopShip, shopClass)
                 )
                 shipBuy.grid(column=0, row=4, sticky='ew')
@@ -196,7 +164,7 @@ class Shop:
         if points < price:
             self.update_button(shopClass, shopShip, 'Declined', '#db4040', 'sunken', self.strawman)
         else:
-            self.update_button(shopClass, shopShip, 'Confirm', warships.countryColors[self.country], 'sunken', partial(self.buy, price, shopShip, shopClass))
+            self.update_button(shopClass, shopShip, 'Confirm', self.countryColor, 'sunken', partial(self.buy, price, shopShip, shopClass))
         pass
 
     def buy(self, price, shopShip, shopClass):
