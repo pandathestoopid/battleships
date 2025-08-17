@@ -110,11 +110,11 @@ class Shop:
         # Title, framed with three labels for aesthetic purposes
         titleFrame = Frame(self.shopFrame, bg=self.accentColor1)
         titleFrame.grid(column=0, row=0, padx=10, pady=10, sticky='w')
-        titleLabel1 = Label(titleFrame, text=f'Shop for', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
+        titleLabel1 = Label(titleFrame, text=f'Shop for ', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel1.grid(column=0, row=0, sticky='w')
         titleLabel2 = Label(titleFrame, text=f'{self.country}', font=('Inter', 20, 'bold'), bg=warships.countryColors[self.country][0], fg='white')
         titleLabel2.grid(column=1, row=0, sticky='w')
-        titleLabel3 = Label(titleFrame, text=f'ships', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
+        titleLabel3 = Label(titleFrame, text=f' ships', font=('Inter', 20, 'bold'), bg=self.accentColor1, fg=self.textColor)
         titleLabel3.grid(column=2, row=0, sticky='w')
 
         # Points available counter, framed with two labels for aesthetic purposes
