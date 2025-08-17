@@ -13,4 +13,11 @@ equippedShips = [None, None, None, None, None]
 
 class Drydock:
     def __init__(self, root, country, colors):
-        pass
+        self.root = root
+        self.colors = colors
+        self.color = colors[0]
+        self.textColor = colors[1]
+        self.accentColor1 = colors[2]
+        self.accentColor2 = colors[3]
+
+        self.country = country

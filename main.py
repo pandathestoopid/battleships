@@ -1,13 +1,13 @@
 from functools import partial
 from tkinter import *
 from tkinter import font
+from PIL import Image, ImageTk
 import os
 import time
 
 import game
 import shop as shopFile
-from warships import countries
-
+from warships import countries, countryColors
 
 # Color theme
 
@@ -47,14 +47,22 @@ font.Font(root=root, name='Inter', size=10)
 defaultFont = font.nametofont('TkDefaultFont')
 defaultFont.configure(family='Inter', size=10)
 
-# Load external instances
-
-shopObj = shopFile.Shop(root = root, country = countries[0], colors=colors)
-gameObj = game.Game(root=root, colors=colors)
-
 # Main menu window
 
 class MainMenu:
+    def __init__(self):
+
+        self.activeCountry = countries[0]
+
+        # Load external instances
+        self.shopObj = shopFile.Shop(root=root, country=self.activeCountry, colors=colors)
+        self.gameObj = game.Game(root=root, colors=colors)
+
+    # Changes the active country
+    def changeCountry(self):
+        pass
+
+
     def open_menu(self):
 
         # Overall frame for the main menu
@@ -83,9 +91,23 @@ class MainMenu:
         self.shopButton = Button(shipCustomizeFrame, text='Shop', font=('Inter', 20), padx=78, pady=20, fg='white', bg='#006abb', relief='groove', command=self.open_shop)
         self.shopButton.grid(column=1, row=0, sticky='ew')
 
+        # Flag buttons
+        flagButtonFrame = Frame(root, bg=accentColor1, padx=50, pady=10)
+        flagButtonFrame.grid(column=1, row=0)
+        for i, country in enumerate(countryColors.items()):
+            rszdImg = country[1][1]
+            rszdImg.thumbnail([100, 100])
+            tkImg = ImageTk.PhotoImage(rszdImg)
+            flagButton = Button(flagButtonFrame, image=tkImg, bg=textColor, relief="groove", command=self.changeCountry)
+            flagButton.image = tkImg
+            flagButton.grid(column=0, row=i, sticky='ew', padx=10, pady=10)
+            flagLabel = Label(flagButtonFrame, text=country[0], font=('Inter', 14, 'bold'), bg=accentColor1, fg=textColor, padx=10)
+            flagLabel.grid(column=1, row=i, sticky='w')
+
+
         # Exit button
         self.exitButton = Button(self.menuFrame, text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
-                                 fg='white', bg='#006abb', activebackground='#db4040', activeforeground='white', relief='groove', command=self.closing_game)
+                                 fg='white', bg=countryColor, activebackground='#db4040', activeforeground='white', relief='groove', command=self.closing_game)
         self.exitButton.grid(column=0, row=3, sticky='ew')
 
         # Checker for aborting an animated button, flipped if abort button is pressed
@@ -99,15 +121,15 @@ class MainMenu:
     def open_game(self):
         self.menuFrame.destroy()
         root.grid_rowconfigure(0, weight=0)
-        gameObj.start()
+        self.gameObj.start()
 
 
     # Opens shop
     def open_shop(self):
 
         # Opens the shop and checks for owned ships
-        shopObj.open()
-        shopObj.check_ships()
+        self.shopObj.open()
+        self.shopObj.check_ships()
 
         # Sets the shop button to close it when pressed
         self.shopButton.config(relief='sunken', command=self.reopen_menu)
@@ -116,7 +138,7 @@ class MainMenu:
     def reopen_menu(self):
 
         # Closes shop
-        shopObj.shopFrame.destroy()
+        self.shopObj.shopFrame.destroy()
 
         # Resets shop button
         self.shopButton.config(relief='groove', command=self.open_shop)

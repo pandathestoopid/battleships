@@ -1,14 +1,15 @@
+from PIL import Image
 from random import *
 
 
 countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'Japan']
 
 countryColors = {
-    'United States': '#0a3e8a',
-    'Soviet Union': '#d93604',
-    'United Kingdom': '#03194a',
-    'Germany': '#ad8603',
-    'Japan': '#bb0045'
+    'United States': ('#0a3e8a', Image.open('assets/flags/us.jpg')),
+    'Soviet Union': ('#d93604', Image.open('assets/flags/su.jpg')),
+    'United Kingdom': ('#03194a', Image.open('assets/flags/uk.jpg')),
+    'Germany': ('#ad8603', Image.open('assets/flags/de.jpg')),
+    'Japan': ('#bb0045', Image.open('assets/flags/jp.jpg'))
 }
 
 # Carriers
