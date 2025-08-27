@@ -13,7 +13,7 @@ country = 'United States'
 
 # Color theme
 
-colorSetting = 'light'
+colorSetting = 'dark'
 
 if colorSetting == 'light':
     color = '#ddd'
@@ -86,6 +86,7 @@ class MainMenu:
 
     # Initiates game opening
     def opening_game(self):
+        self.playButton.config(state=DISABLED)
         self.button_animation(15, 0, 0, self.playButton, 'self.open_game', 'Embarking', '>>', '<<', -1, 15)
 
     def open_game(self):
@@ -111,7 +112,7 @@ class MainMenu:
 
         # Starts the closing button animation
         (self.button_animation
-         (0, 0, 18, self.exitButton, 'root.destroy', 'Abort', '<<', '>>', 1, 0))
+         (0, 0, 16, self.exitButton, 'root.destroy', 'Abort', '<<', '>>', 1, 0))
 
     # Animation for any button that has arrows
     def button_animation(self, passes, bigPasses, maxPasses, button, endCommand, btnText, animateeLeft, animateeRight, animationDirection, startPasses):

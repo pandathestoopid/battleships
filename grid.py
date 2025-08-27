@@ -135,7 +135,7 @@ class Grid:
         self.board = [[None for _ in range(self.gridSize)] for _ in range(self.gridSize)]
         for row in self.buttons:
             for button in row:
-                button.config(bg=self.accentColor1)
+                button.config(bg=self.accentColor1, relief='ridge')
 
     # Automatically places the ships
     def autoPlace(self):
