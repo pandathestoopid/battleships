@@ -6,7 +6,6 @@ import os
 import time
 
 import game
-import shop as shopFile
 from warships import countries, countryColors
 
 # Reads country from persistent storage (not implemented yet)
@@ -39,7 +38,6 @@ colors = list((color, textColor, accentColor1, accentColor2, countryColor))
 # Window specs
 
 root = Tk()
-root.geometry('1400x900')
 root.title('Battleships')
 root.configure(bg=color, border=25)
 root.resizable(False, False)
@@ -57,26 +55,14 @@ defaultFont.configure(family='Inter', size=10)
 class MainMenu:
     def __init__(self):
 
-        # Load external instances
-        self.shopObj = shopFile.Shop(root=root, country=country, colors=colors)
+        # Load external instance
         self.gameObj = game.Game(root=root, colors=colors)
 
-    # Changes the active country
-    def changeCountry(self, newCountry):
-        global country, countryColor, colors
-        country = newCountry
-        countryColor = countryColors[country][0]
-        colors[4] = countryColor
-        print(newCountry)
-
-        # Regenerates the menu with the new country's color theme, also re-creates the shop for the specified country
-        self.shopObj = shopFile.Shop(root=root, country=country, colors=colors)
-        self.open_menu()
 
     def open_menu(self):
 
         # Overall frame for the main menu
-        self.menuFrame = Frame(root, bg=color, padx=100)
+        self.menuFrame = Frame(root, bg=color, padx=100, pady=50)
         self.menuFrame.grid(column=0, row=0)
 
         # Label for game title (will look better later)
@@ -88,32 +74,6 @@ class MainMenu:
         self.playButton = Button(self.menuFrame, text='>>   Embark   <<', font=('Inter', 20, 'bold'), padx=5, pady=20,
                                  fg='white', bg=countryColor, relief='groove', command=self.opening_game) # This passes the actual command to a later function so that the button is defined
         self.playButton.grid(column=0, row=1, sticky='nsew')
-
-        # Frame for dock and shop button
-        shipCustomizeFrame = Frame(self.menuFrame, bg=color, padx=0, pady=10)
-        shipCustomizeFrame.grid(column=0, row=2, sticky='ew')
-
-        # Dock button
-        dockButton = Button(shipCustomizeFrame, text='Drydock', font=('Inter', 20), padx=62, pady=20, fg='white', bg=countryColor, relief='groove')
-        dockButton.grid(column=0, row=0, sticky='ew')
-
-        # Shop button
-        self.shopButton = Button(shipCustomizeFrame, text='Shop', font=('Inter', 20), padx=78, pady=20, fg='white', bg=countryColor, relief='groove', command=self.open_shop)
-        self.shopButton.grid(column=1, row=0, sticky='ew')
-
-        # Flag buttons
-        self.flagButtonFrame = Frame(root, bg=color, padx=50, pady=10)
-        self.flagButtonFrame.grid(column=1, row=0)
-        for i, country in enumerate(countryColors.items()):
-            rszdImg = country[1][1]
-            rszdImg.thumbnail([100, 100])
-            tkImg = ImageTk.PhotoImage(rszdImg)
-            flagButton = Button(self.flagButtonFrame, image=tkImg, bg=textColor, relief="groove", command=lambda newCountry=country: self.changeCountry(newCountry[0]))
-            flagButton.image = tkImg
-            flagButton.grid(column=0, row=i, sticky='ew', padx=10, pady=10)
-            flagLabel = Label(self.flagButtonFrame, text=country[0], font=('Inter', 14, 'bold'), bg=color, fg=textColor, padx=10)
-            flagLabel.grid(column=1, row=i, sticky='w')
-
 
         # Exit button
         self.exitButton = Button(self.menuFrame, text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
@@ -130,29 +90,9 @@ class MainMenu:
 
     def open_game(self):
         self.menuFrame.destroy()
-        self.flagButtonFrame.destroy()
         root.grid_rowconfigure(0, weight=0)
         self.gameObj.start()
 
-
-    # Opens shop
-    def open_shop(self):
-
-        # Opens the shop and checks for owned ships
-        self.shopObj.open()
-        self.shopObj.check_ships()
-
-        # Sets the shop button to close it when pressed
-        self.shopButton.config(relief='sunken', command=self.reopen_menu)
-
-    # Reopens the main menu after closing the shop
-    def reopen_menu(self):
-
-        # Closes shop
-        self.shopObj.shopFrame.destroy()
-
-        # Resets shop button
-        self.shopButton.config(relief='groove', command=self.open_shop)
 
     # Aborts game close if the close button is pressed during the animation
     def abort_game_close(self):
@@ -203,13 +143,5 @@ class MainMenu:
 
 main = MainMenu()
 main.open_menu()
-
-# Prevents menu from disappearing when shop is opened
-root.grid_rowconfigure(0, weight=1)
-
-# userGrid = grid.Grid(10, root = root, colors=colors)
-# userGrid.generate()
-# userGrid.start_ship_placement()
-
 
 root.mainloop()
