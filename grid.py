@@ -144,11 +144,21 @@ class Grid:
         for sType in warships.ships: # Goes through the 5 types of ships in the main ship library
             self.shipSize = sType['size'] # Pulls the type's size from its dictionary
             self.shipType = sType['name'] # Pulls the type's name from its dictionary
-            x, y, self.shipOrientation = self.placer.place(self.shipSize)
-            self.place(y,x)
+            x, y, self.shipOrientation = self.placer.place(self.shipSize) # Gets placement coordinates from ai.py function
+            self.place(y,x) # Places ship at generated coordinates
+        # Returns board to game.py
+        global board
+        board = self.board
+        self.doneCallback()
+
 
     # Begins the ship placement process
     def start_ship_placement(self, doneCallback=None):
+
+        # Sets up callback function and only writes when one is passed from the parent file
+        if doneCallback is not None:
+            self.doneCallback = doneCallback
+
 
         # Checks if this is the AI board, if so, enables auto-placing; if not, enables the buttons to manually place
         if self.user == 'AI':
@@ -161,9 +171,6 @@ class Grid:
                 for button in row:
                     button.config(state='normal')
 
-        # Sets up callback function and only writes when one is passed from the parent file
-        if doneCallback is not None:
-            self.doneCallback = doneCallback
 
         # Rotate button, which appears only if the grid user is the player
         if self.user == 'You':

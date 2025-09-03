@@ -11,4 +11,3 @@ class Sidebar:
         self.accentColor1 = colors[2]
         self.accentColor2 = colors[3]
 
-        self.ships = ships

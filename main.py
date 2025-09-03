@@ -35,6 +35,9 @@ countryColor = countryColors[country][0]
 
 colors = list((color, textColor, accentColor1, accentColor2, countryColor))
 
+# Difficulty list
+difficulties = ['Cadet', 'Ensign', 'Admiral']
+
 # Window specs
 
 root = Tk()
