@@ -235,15 +235,15 @@ seawolf = {
     'type': 'Submarine'
 }
 
-wahoo = {
-    'name': 'USS Wahoo',
+virginia = {
+    'name': 'USS Virginia',
     'nation': 'United States',
     'level': 3,
     'type': 'Submarine'
 }
 
-# List of each nations's subs
-usSubs = [nautilus, losAngeles, seawolf, wahoo]
+# List of each nations' subs
+usSubs = [nautilus, losAngeles, seawolf, virginia]
 sovSubs = None
 
 submarines = {
