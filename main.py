@@ -9,7 +9,7 @@ import game
 import shop as shopFile
 from warships import countries, countryColors
 
-# Reads country from persistent storage (not implemented yet)
+# (Supposed to) read country from persistent storage (not implemented yet)
 country = 'United States'
 
 # Color theme
@@ -39,7 +39,7 @@ colors = list((color, textColor, accentColor1, accentColor2, countryColor))
 # Window specs
 
 root = Tk()
-root.geometry('1400x900')
+root.geometry('1400x1000')
 root.title('Battleships')
 root.configure(bg=color, border=25)
 root.resizable(False, False)
@@ -60,6 +60,7 @@ class MainMenu:
         # Load external instances
         self.shopObj = shopFile.Shop(root=root, country=country, colors=colors)
         self.gameObj = game.Game(root=root, colors=colors)
+        self.shopOpened = False
 
     # Changes the active country
     def changeCountry(self, newCountry):
@@ -89,19 +90,12 @@ class MainMenu:
                                  fg='white', bg=countryColor, relief='groove', command=self.opening_game) # This passes the actual command to a later function so that the button is defined
         self.playButton.grid(column=0, row=1, sticky='nsew')
 
-        # Frame for dock and shop button
-        shipCustomizeFrame = Frame(self.menuFrame, bg=color, padx=0, pady=10)
-        shipCustomizeFrame.grid(column=0, row=2, sticky='ew')
-
-        # Dock button
-        dockButton = Button(shipCustomizeFrame, text='Drydock', font=('Inter', 20), padx=62, pady=20, fg='white', bg=countryColor, relief='groove')
-        dockButton.grid(column=0, row=0, sticky='ew')
-
         # Shop button
-        self.shopButton = Button(shipCustomizeFrame, text='Shop', font=('Inter', 20), padx=78, pady=20, fg='white', bg=countryColor, relief='groove', command=self.open_shop)
-        self.shopButton.grid(column=1, row=0, sticky='ew')
+        self.shopButton = Button(self.menuFrame, text='Shop', font=('Inter', 20), padx=0, pady=20, fg='white', bg=countryColor, relief='groove', command=self.open_shop)
+        self.shopButton.grid(column=0, row=2, sticky='ew')
 
         # Flag buttons
+        '''
         self.flagButtonFrame = Frame(root, bg=color, padx=50, pady=10)
         self.flagButtonFrame.grid(column=1, row=0)
         for i, country in enumerate(countryColors.items()):
@@ -113,7 +107,7 @@ class MainMenu:
             flagButton.grid(column=0, row=i, sticky='ew', padx=10, pady=10)
             flagLabel = Label(self.flagButtonFrame, text=country[0], font=('Inter', 14, 'bold'), bg=color, fg=textColor, padx=10)
             flagLabel.grid(column=1, row=i, sticky='w')
-
+        '''
 
         # Exit button
         self.exitButton = Button(self.menuFrame, text='<<  Deboard  >>', font=('Inter', 20), padx=5, pady=20,
@@ -129,8 +123,14 @@ class MainMenu:
         self.button_animation(15, 0, 0, self.playButton, 'self.open_game', 'Embarking', '>>', '<<', -1, 15)
 
     def open_game(self):
+        # Kills existing non-game stuff
         self.menuFrame.destroy()
-        self.flagButtonFrame.destroy()
+
+        try: # Closes the shop if it was ever created
+            self.shopObj.shopFrame.destroy()
+        except:
+            print('shop never opened')
+        # self.flagButtonFrame.destroy()
         root.grid_rowconfigure(0, weight=0)
         self.gameObj.start()
 

@@ -189,7 +189,7 @@ class Grid:
 
         # Shows which ship is being placed, only used for player's grid
         if self.user == 'You':
-            self.shipLabel = Label(self.playerFrame, text=f'{self.shipType.upper()}  [{self.shipSize}]', font=('Inter', 15, 'bold'), padx=50, pady=15, bg=self.color, fg='pale green', anchor='w')
+            self.shipLabel = Label(self.playerFrame, text=f'{self.shipType.upper()}  [{self.shipSize}]', font=('Inter', 15, 'bold'), padx=50, pady=15, bg=self.color, fg='green', anchor='w')
             self.shipLabel.grid(column=2, row=0, sticky='nw')
 
         for row in range(self.gridSize):

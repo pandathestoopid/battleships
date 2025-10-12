@@ -1,6 +1,7 @@
 from PIL import Image
 from random import *
 
+# OTHER COUNTRIES ARE NOT FULLY IMPLEMENTED AND THUS ARE UNUSED CODE.
 
 countries = ['United States', 'Soviet Union', 'United Kingdom', 'Germany', 'Japan']
 
@@ -272,8 +273,8 @@ knox = {
     'type': 'Frigate'
 }
 
-brooke = {
-    'name': 'USS Brooke',
+schofield = {
+    'name': 'USS Schofield',
     'nation': 'United States',
     'level': 1,
     'type': 'Frigate'
@@ -294,7 +295,7 @@ constellation = {
 }
 
 # List of each nation's frigates
-usFrigs = [knox, brooke, independence, constellation]
+usFrigs = [knox, schofield, independence, constellation]
 sovFrigs = None
 
 frigates = {
