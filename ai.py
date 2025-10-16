@@ -6,6 +6,7 @@ orientations = ['horizontal', 'vertical']
 class Placer:
     def __init__(self, difficulty, size):
 
+        '''
         self.difficulty = difficulty
 
         # The tendency number indicates the strength 1-10
@@ -35,6 +36,7 @@ class Placer:
             edgeTendency = 1
             adjacentTendency = 1
             # baller
+        '''
 
         self.gridSize = size
         self.board = [[None for _ in range(size)] for _ in range(size)]

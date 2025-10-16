@@ -14,7 +14,7 @@ country = 'United States'
 
 # Color theme
 
-colorSetting = 'light'
+colorSetting = 'dark'
 
 if colorSetting == 'light':
     color = '#ddd'
