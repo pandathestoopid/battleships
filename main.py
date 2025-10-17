@@ -60,7 +60,6 @@ class MainMenu:
         # Load external instances
         self.shopObj = shopFile.Shop(root=root, country=country, colors=colors)
         self.gameObj = game.Game(root=root, colors=colors)
-        self.shopOpened = False
 
     # Changes the active country
     def changeCountry(self, newCountry):

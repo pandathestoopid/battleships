@@ -156,6 +156,7 @@ class Grid:
             regenButton.grid(column=2, row=0, sticky='w', padx=20)
             self.auto = True
             self.autoPlace()
+            print('ships placed automatically')
         else:
             for row in self.buttons:
                 for button in row:

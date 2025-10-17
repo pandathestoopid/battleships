@@ -51,6 +51,8 @@ class Placer:
         while True:
 
             orient = random.choice(orientations) # Picks an orientation for the ship
+
+            # Determines the amount to reduce the placement coordinates by, based on the orientation of the ship
             if orient == 'horizontal':
                 xReduce = 1
                 yReduce = 0
