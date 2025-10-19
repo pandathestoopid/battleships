@@ -249,7 +249,7 @@ class Grid:
                 # Once placement is successful, the while loop ends
                 break
             except IndexError:
-                oobLabel = Label(self.playerFrame, text='ERROR: Out of bounds', font=('Inter', 20, 'bold'), padx=40, pady=15, bg='red', fg='#fff')
+                oobLabel = Label(self.playerFrame, text='Invalid Placement', font=('Inter', 20, 'bold'), padx=40, pady=15, bg='red', fg='#fff')
                 oobLabel.grid(column=1, row=0, sticky='ew')
                 oobLabel.after(1500, oobLabel.destroy)
                 return
