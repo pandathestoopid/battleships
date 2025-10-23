@@ -140,6 +140,9 @@ class Grid:
     # Automatically places the ships
     def autoPlace(self):
         self.clear_board()
+        for row in self.buttons:
+            for button in row:
+                button.config(relief='ridge')
         self.placer.reset()
         for sType in warships.ships: # Goes through the 5 types of ships in the main ship library
             self.shipSize = sType['size'] # Pulls the type's size from its dictionary
@@ -264,7 +267,3 @@ class Grid:
     # Locks the square after clicking the desired square
     def lock(self, y, x):
         pass
-
-    # Get the board state
-
-

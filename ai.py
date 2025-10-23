@@ -59,28 +59,32 @@ class Placer:
             elif orient == 'vertical':
                 xReduce = 0
                 yReduce = 1
+            else: # To get rid of warnings, this is never going to really happen
+                xReduce = 0
+                yReduce = 0
 
             # Chooses a spot to put the ship within the grid
-            x = random.randint(0, self.gridSize - 1 - (size * xReduce))
-            y = random.randint(0, self.gridSize - 1 - (size * yReduce))
+            x = random.randint(0, self.gridSize - 1 - ((size-1) * xReduce))
+            y = random.randint(0, self.gridSize - 1 - ((size-1) * yReduce))
 
             bad = False
             if orient == 'horizontal':
                 for s in range(-1, size+1):
+                    if x+s >= self.gridSize: break
                     if self.board[y][x+s] is not None: # Checks main horizontal line
-                        if x+s < 0: # Ensures there are no negative list index for the parallel axis
+                        if x+s < 0: # Ensures there is no negative list index for the parallel axis
                             x+=1
                         bad = True
                         print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
                     if y-1 >= 0 and self.board[y-1][x+s] is not None: # Checks above horizontal line (if it exists)
-                        if x+s < 0: # Ensures there are no negative list index for the parallel axis
+                        if x+s < 0: # Ensures there is no negative list index for the parallel axis
                             x+=1
                         bad = True
                         print('oops')
                         break
                     if y+1 < self.gridSize and self.board[y+1][x+s] is not None: # Checks below horizontal line (if it exists)
-                        if x+s < 0: # Ensures there are no negative list index for the parallel axis
+                        if x+s < 0: # Ensures there is no negative list index for the parallel axis
                             x+=1
                         bad = True
                         print('oops')
@@ -92,20 +96,21 @@ class Placer:
                         self.board[y][x+s] = size # Updates the board if the checks pass
             elif orient == 'vertical':
                 for s in range(-1, size+1):
+                    if y+s >= self.gridSize: break
                     if self.board[y+s][x] is not None: # Checks main vertical line
-                        if y+s < 0: # Ensures there are no negative list index for the parallel axis
+                        if y+s < 0: # Ensures there is no negative list index for the parallel axis
                             y+=1
                         bad = True
                         print('oops')
                         break # Exits the for loop so that the continue statement skips the while loop
                     if x-1 >= 0 and self.board[y+s][x-1] is not None:  # Checks the left vertical line
-                        if y+s < 0: # Ensures there are no negative list index for the parallel axis
+                        if y+s < 0: # Ensures there is no negative list index for the parallel axis
                             y+=1
                         bad = True
                         print('oops')
                         break
                     if x+1 < self.gridSize and self.board[y+s][x+1] is not None:  # Checks the right vertical line
-                        if y+s < 0: # Ensures there are no negative list index for the parallel axis
+                        if y+s < 0: # Ensures there is no negative list index for the parallel axis
                             y+=1
                         bad = True
                         print('oops')
